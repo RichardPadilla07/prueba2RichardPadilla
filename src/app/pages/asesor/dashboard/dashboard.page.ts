@@ -58,11 +58,11 @@ export class DashboardPage implements OnInit, OnDestroy {
     this.router.navigate(['/pages/asesor/crear-plan']);
   }
 
-  verDetalle(planId: string) {
+  verDetalle(planId: number) {
     this.router.navigate(['/pages/detalle-plan', planId]);
   }
 
-  editarPlan(planId: string) {
+  editarPlan(planId: number) {
     this.router.navigate(['/pages/asesor/crear-plan', planId]);
   }
 

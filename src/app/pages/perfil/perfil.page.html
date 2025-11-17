@@ -31,12 +31,6 @@
           </ion-item>
 
           <ion-item>
-            <ion-icon name="mail-outline" slot="start"></ion-icon>
-            <ion-label position="floating">Email</ion-label>
-            <ion-input type="email" [value]="perfil.email" disabled></ion-input>
-          </ion-item>
-
-          <ion-item>
             <ion-icon name="call-outline" slot="start"></ion-icon>
             <ion-label position="floating">Teléfono</ion-label>
             <ion-input type="tel" formControlName="telefono" placeholder="1234567890"></ion-input>
@@ -75,10 +69,6 @@
         <ion-card-title>Información de Cuenta</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <div class="info-item">
-          <strong>Fecha de registro:</strong>
-          <span>{{ perfil.created_at | date:'dd/MM/yyyy' }}</span>
-        </div>
         <div class="info-item">
           <strong>ID de usuario:</strong>
           <span class="user-id">{{ perfil.id }}</span>

@@ -121,7 +121,7 @@ export class ContratacionesAsesorPage implements OnInit, OnDestroy {
     await alert.present();
   }
 
-  async procesarCambioEstado(contratacionId: string, nuevoEstado: ContratoEstado) {
+  async procesarCambioEstado(contratacionId: number, nuevoEstado: ContratoEstado) {
     const loading = await this.loadingCtrl.create({
       message: 'Actualizando...'
     });
@@ -148,7 +148,7 @@ export class ContratacionesAsesorPage implements OnInit, OnDestroy {
     }
   }
 
-  abrirChat(contratacionId: string) {
+  abrirChat(contratacionId: number) {
     this.router.navigate(['/pages/chat', contratacionId]);
   }
 

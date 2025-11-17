@@ -39,7 +39,7 @@ export class AuthService {
     const { data, error } = await this.supabase.client
       .from('perfiles')
       .select('*')
-      .eq('id', userId)
+      .eq('user_id', userId)
       .single();
 
     if (data && !error) {
@@ -63,8 +63,7 @@ export class AuthService {
 
       // 2. Crear perfil en la tabla perfiles
       const perfilData: PerfilInsert = {
-        id: authData.user.id,
-        email: authData.user.email!,
+        user_id: authData.user.id,
         nombre,
         telefono,
         rol: 'usuario_registrado' // Por defecto, todos los nuevos usuarios son registrados
@@ -152,7 +151,7 @@ export class AuthService {
       const { error } = await this.supabase.client
         .from('perfiles')
         .update(updates)
-        .eq('id', userId);
+        .eq('user_id', userId);
 
       if (error) throw error;
 
@@ -173,7 +172,7 @@ export class AuthService {
       const { error } = await this.supabase.client
         .from('perfiles')
         .update({ rol: newRole })
-        .eq('id', userId);
+        .eq('user_id', userId);
 
       if (error) throw error;
       return { success: true };

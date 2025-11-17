@@ -55,7 +55,7 @@ export class CatalogoPage implements OnInit, OnDestroy {
     });
   }
 
-  verDetalle(planId: string) {
+  verDetalle(planId: number) {
     this.router.navigate(['/pages/detalle-plan', planId]);
   }
 

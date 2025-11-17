@@ -36,41 +36,21 @@
     <ion-card *ngFor="let contratacion of contratacionesFiltradas">
       <ion-card-header>
         <div class="header-content">
-          <ion-card-title>{{ contratacion.plan?.nombre }}</ion-card-title>
+          <ion-card-title>{{ contratacion.planes_moviles?.nombre }}</ion-card-title>
           <ion-chip [color]="getEstadoColor(contratacion.estado)">
             <ion-icon [name]="getEstadoIcon(contratacion.estado)"></ion-icon>
             <ion-label>{{ contratacion.estado | titlecase }}</ion-label>
           </ion-chip>
         </div>
         <ion-card-subtitle>
-          {{ contratacion.fecha_contratacion | date:'dd/MM/yyyy HH:mm' }}
+          {{ contratacion.fecha | date:'dd/MM/yyyy HH:mm' }}
         </ion-card-subtitle>
       </ion-card-header>
 
       <ion-card-content>
-        <div class="cliente-info">
-          <div class="info-item">
-            <ion-icon name="person-outline"></ion-icon>
-            <span>{{ contratacion.usuario?.nombre }}</span>
-          </div>
-          <div class="info-item">
-            <ion-icon name="mail-outline"></ion-icon>
-            <span>{{ contratacion.usuario?.email }}</span>
-          </div>
-          <div class="info-item" *ngIf="contratacion.usuario?.telefono">
-            <ion-icon name="call-outline"></ion-icon>
-            <span>{{ contratacion.usuario?.telefono }}</span>
-          </div>
-        </div>
-
         <div class="plan-info">
-          <p><strong>Precio:</strong> ${{ contratacion.plan?.precio | number:'1.0-0' }}/mes</p>
-          <p><strong>Datos:</strong> {{ contratacion.plan?.datos_gb }} GB</p>
-        </div>
-
-        <div *ngIf="contratacion.notas" class="notas">
-          <p><strong>Notas del cliente:</strong></p>
-          <p>{{ contratacion.notas }}</p>
+          <p><strong>Precio:</strong> ${{ contratacion.planes_moviles?.precio | number:'1.0-0' }}/mes</p>
+          <p><strong>Datos:</strong> {{ contratacion.planes_moviles?.datos }} GB</p>
         </div>
 
         <div class="action-buttons">

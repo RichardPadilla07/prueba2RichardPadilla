@@ -11,14 +11,14 @@ export class ChatService {
   private mensajes = new BehaviorSubject<MensajeChat[]>([]);
   public mensajes$ = this.mensajes.asObservable();
   private realtimeChannel?: RealtimeChannel;
-  private currentContratacionId?: string;
+  private currentContratacionId?: number;
 
   constructor(private supabase: SupabaseService) {}
 
   /**
    * Suscribe a mensajes de una contratación específica
    */
-  subscribeToChat(contratacionId: string) {
+  subscribeToChat(contratacionId: number) {
     // Desuscribir del canal anterior si existe
     if (this.realtimeChannel) {
       this.supabase.client.removeChannel(this.realtimeChannel);
@@ -46,17 +46,14 @@ export class ChatService {
   }
 
   /**
-   * Carga los mensajes de una contratación
+   * Carga mensajes desde la base de datos
    */
-  private async loadMensajes(contratacionId: string) {
+  private async loadMensajes(contratacionId: number) {
     const { data, error } = await this.supabase.client
       .from('mensajes_chat')
-      .select(`
-        *,
-        emisor:perfiles!mensajes_chat_emisor_id_fkey(id, nombre, rol)
-      `)
+      .select('*')
       .eq('contratacion_id', contratacionId)
-      .order('created_at', { ascending: true });
+      .order('fecha', { ascending: true});
 
     if (data && !error) {
       this.mensajes.next(data as any);
@@ -82,16 +79,15 @@ export class ChatService {
   /**
    * Envía un mensaje
    */
-  async sendMensaje(contratacionId: string, mensaje: string): Promise<{ success: boolean; error?: string }> {
+  async sendMensaje(contratacionId: number, mensaje: string): Promise<{ success: boolean; error?: string }> {
     try {
       const userId = this.supabase.currentUserValue?.id;
       if (!userId) throw new Error('Usuario no autenticado');
 
       const mensajeData: MensajeChatInsert = {
         contratacion_id: contratacionId,
-        emisor_id: userId,
-        mensaje,
-        leido: false
+        emisor: userId,
+        mensaje
       };
 
       const { error } = await this.supabase.client
@@ -109,41 +105,25 @@ export class ChatService {
   /**
    * Marca mensajes como leídos
    */
-  async markAsRead(contratacionId: string): Promise<{ success: boolean; error?: string }> {
+  async markAsRead(contratacionId: number): Promise<{ success: boolean; error?: string }> {
     try {
       const userId = this.supabase.currentUserValue?.id;
       if (!userId) throw new Error('Usuario no autenticado');
 
-      const { error } = await this.supabase.client
-        .from('mensajes_chat')
-        .update({ leido: true })
-        .eq('contratacion_id', contratacionId)
-        .neq('emisor_id', userId)
-        .eq('leido', false);
-
-      if (error) throw error;
+      // Nota: La tabla no tiene campo leido, esta función no hace nada por ahora
       return { success: true };
-    } catch (error: any) {
-      console.error('Error marcando mensajes como leídos:', error);
-      return { success: false, error: error.message };
+    } catch (err: any) {
+      console.error('Error marcando mensajes como leídos:', err);
+      return { success: false, error: err.message };
     }
   }
 
   /**
    * Obtiene el conteo de mensajes no leídos
    */
-  async getUnreadCount(contratacionId: string): Promise<number> {
-    const userId = this.supabase.currentUserValue?.id;
-    if (!userId) return 0;
-
-    const { count, error } = await this.supabase.client
-      .from('mensajes_chat')
-      .select('*', { count: 'exact', head: true })
-      .eq('contratacion_id', contratacionId)
-      .neq('emisor_id', userId)
-      .eq('leido', false);
-
-    return count || 0;
+  async getUnreadCount(contratacionId: number): Promise<number> {
+    // Nota: La tabla no tiene campo leido, retorna 0 por ahora
+    return 0;
   }
 
   /**

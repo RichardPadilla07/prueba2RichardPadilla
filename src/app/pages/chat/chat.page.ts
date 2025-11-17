@@ -25,7 +25,7 @@ export class ChatPage implements OnInit, OnDestroy {
   nuevoMensaje = '';
   loading = true;
   sending = false;
-  contratacionId?: string;
+  contratacionId?: number;
   contratacion?: Contratacion;
   currentUserId?: string;
   private mensajesSubscription?: Subscription;
@@ -41,10 +41,10 @@ export class ChatPage implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    this.currentUserId = this.authService.getCurrentProfile()?.id;
-    this.contratacionId = this.route.snapshot.paramMap.get('id') || undefined;
-    
-    if (this.contratacionId) {
+    this.currentUserId = this.authService.getCurrentProfile()?.user_id;
+    const idParam = this.route.snapshot.paramMap.get('id');
+    if (idParam) {
+      this.contratacionId = parseInt(idParam, 10);
       await this.loadContratacion(this.contratacionId);
       this.chatService.subscribeToChat(this.contratacionId);
       this.subscribeToChatMessages();
@@ -61,8 +61,9 @@ export class ChatPage implements OnInit, OnDestroy {
     this.chatService.unsubscribe();
   }
 
-  async loadContratacion(id: string) {
-    this.contratacion = await this.contratacionesService.getContratacionById(id);
+  async loadContratacion(id: number) {
+    const result = await this.contratacionesService.getContratacionById(id);
+    this.contratacion = result || undefined;
   }
 
   subscribeToChatMessages() {
@@ -93,8 +94,8 @@ export class ChatPage implements OnInit, OnDestroy {
     }
   }
 
-  isMiMensaje(mensaje: MensajeChat): boolean {
-    return mensaje.emisor_id === this.currentUserId;
+  isMine(mensaje: MensajeChat): boolean {
+    return mensaje.emisor === this.currentUserId;
   }
 
   scrollToBottom() {

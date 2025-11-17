@@ -1,66 +1,59 @@
 // Tipos de la base de datos Supabase
 
-export type UserRole = 'invitado' | 'usuario_registrado' | 'asesor_comercial';
+export type UserRole = 'usuario_registrado' | 'asesor_comercial';
 
 export type ContratoEstado = 'pendiente' | 'aceptado' | 'rechazado';
 
 export interface Perfil {
   id: string;
-  email: string;
+  user_id: string;
   nombre: string;
   telefono?: string;
   rol: UserRole;
-  created_at?: string;
-  updated_at?: string;
 }
 
 export interface PlanMovil {
-  id: string;
+  id: number;
   nombre: string;
-  descripcion: string;
   precio: number;
-  datos_gb: number;
-  minutos: number;
-  sms: number;
+  segmento?: string;
+  publico_objetivo?: string;
+  datos?: string;
+  minutos?: string;
+  sms?: string;
+  velocidad?: string;
+  redes_sociales?: string;
+  llamadas_internacionales?: string;
+  roaming?: string;
   imagen_url?: string;
   activo: boolean;
-  created_at?: string;
-  updated_at?: string;
-  created_by?: string;
 }
 
 export interface Contratacion {
-  id: string;
+  id: number;
   usuario_id: string;
-  plan_id: string;
+  plan_id: number;
   estado: ContratoEstado;
-  fecha_contratacion: string;
-  notas?: string;
-  created_at?: string;
-  updated_at?: string;
+  fecha: string;
   // Relaciones expandidas
-  usuario?: Perfil;
-  plan?: PlanMovil;
+  planes_moviles?: PlanMovil;
 }
 
 export interface MensajeChat {
-  id: string;
-  contratacion_id: string;
-  emisor_id: string;
+  id: number;
+  contratacion_id: number;
+  emisor: string;
   mensaje: string;
-  leido: boolean;
-  created_at?: string;
-  // Relaciones expandidas
-  emisor?: Perfil;
+  fecha: string;
 }
 
 // Tipos para inserciones (sin campos auto-generados)
-export type PerfilInsert = Omit<Perfil, 'created_at' | 'updated_at'>;
-export type PlanMovilInsert = Omit<PlanMovil, 'id' | 'created_at' | 'updated_at'>;
-export type ContratacionInsert = Omit<Contratacion, 'id' | 'created_at' | 'updated_at'>;
-export type MensajeChatInsert = Omit<MensajeChat, 'id' | 'created_at'>;
+export type PerfilInsert = Omit<Perfil, 'id'>;
+export type PlanMovilInsert = Omit<PlanMovil, 'id'>;
+export type ContratacionInsert = Omit<Contratacion, 'id' | 'fecha'>;
+export type MensajeChatInsert = Omit<MensajeChat, 'id' | 'fecha'>;
 
 // Tipos para actualizaciones (todos los campos opcionales)
-export type PerfilUpdate = Partial<Omit<Perfil, 'id' | 'created_at'>>;
-export type PlanMovilUpdate = Partial<Omit<PlanMovil, 'id' | 'created_at'>>;
-export type ContratacionUpdate = Partial<Omit<Contratacion, 'id' | 'created_at'>>;
+export type PerfilUpdate = Partial<Omit<Perfil, 'id' | 'user_id'>>;
+export type PlanMovilUpdate = Partial<Omit<PlanMovil, 'id'>>;
+export type ContratacionUpdate = Partial<Omit<Contratacion, 'id' | 'fecha'>>;

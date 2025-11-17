@@ -44,10 +44,9 @@ export class ContratacionesService {
       .from('contrataciones')
       .select(`
         *,
-        usuario:perfiles!contrataciones_usuario_id_fkey(id, nombre, email, telefono),
-        plan:planes_moviles(*)
+        planes_moviles(*)
       `)
-      .order('created_at', { ascending: false });
+      .order('fecha', { ascending: false });
 
     if (data && !error) {
       this.contrataciones.next(data as any);
@@ -65,10 +64,10 @@ export class ContratacionesService {
       .from('contrataciones')
       .select(`
         *,
-        plan:planes_moviles(*)
+        planes_moviles(*)
       `)
       .eq('usuario_id', userId)
-      .order('created_at', { ascending: false });
+      .order('fecha', { ascending: false });
 
     return data as any || [];
   }
@@ -81,10 +80,9 @@ export class ContratacionesService {
       .from('contrataciones')
       .select(`
         *,
-        usuario:perfiles!contrataciones_usuario_id_fkey(id, nombre, email, telefono),
-        plan:planes_moviles(*)
+        planes_moviles(*)
       `)
-      .order('created_at', { ascending: false });
+      .order('fecha', { ascending: false });
 
     if (estado) {
       query = query.eq('estado', estado);
@@ -97,13 +95,12 @@ export class ContratacionesService {
   /**
    * Obtiene una contratación por ID
    */
-  async getContratacionById(id: string): Promise<Contratacion | null> {
+  async getContratacionById(id: number): Promise<Contratacion | null> {
     const { data, error } = await this.supabase.client
       .from('contrataciones')
       .select(`
         *,
-        usuario:perfiles!contrataciones_usuario_id_fkey(id, nombre, email, telefono),
-        plan:planes_moviles(*)
+        planes_moviles(*)
       `)
       .eq('id', id)
       .single();
@@ -114,7 +111,7 @@ export class ContratacionesService {
   /**
    * Crea una nueva contratación
    */
-  async createContratacion(planId: string, notas?: string): Promise<{ success: boolean; data?: Contratacion; error?: string }> {
+  async createContratacion(planId: number): Promise<{ success: boolean; data?: Contratacion; error?: string }> {
     try {
       const userId = this.supabase.currentUserValue?.id;
       if (!userId) throw new Error('Usuario no autenticado');
@@ -122,9 +119,7 @@ export class ContratacionesService {
       const contratacionData: ContratacionInsert = {
         usuario_id: userId,
         plan_id: planId,
-        estado: 'pendiente',
-        fecha_contratacion: new Date().toISOString(),
-        notas
+        estado: 'pendiente'
       };
 
       const { data, error } = await this.supabase.client
@@ -132,8 +127,7 @@ export class ContratacionesService {
         .insert(contratacionData)
         .select(`
           *,
-          usuario:perfiles!contrataciones_usuario_id_fkey(id, nombre, email, telefono),
-          plan:planes_moviles(*)
+          planes_moviles(*)
         `)
         .single();
 
@@ -146,9 +140,9 @@ export class ContratacionesService {
   }
 
   /**
-   * Actualiza el estado de una contratación (para asesores)
+   * Actualiza el estado de una contratación (solo asesores)
    */
-  async updateEstado(id: string, estado: ContratoEstado): Promise<{ success: boolean; error?: string }> {
+  async updateEstado(id: number, estado: ContratoEstado): Promise<{ success: boolean; error?: string }> {
     try {
       const { error } = await this.supabase.client
         .from('contrataciones')

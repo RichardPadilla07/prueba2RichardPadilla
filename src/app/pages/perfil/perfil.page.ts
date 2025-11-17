@@ -38,7 +38,8 @@ export class PerfilPage implements OnInit {
   }
 
   async ngOnInit() {
-    this.perfil = this.authService.getCurrentProfile();
+    const currentProfile = this.authService.getCurrentProfile();
+    this.perfil = currentProfile || undefined;
     if (this.perfil) {
       this.perfilForm.patchValue({
         nombre: this.perfil.nombre,
@@ -89,7 +90,8 @@ export class PerfilPage implements OnInit {
     await loading.dismiss();
 
     if (result.success) {
-      this.perfil = this.authService.getCurrentProfile();
+      const currentProfile = this.authService.getCurrentProfile();
+      this.perfil = currentProfile || undefined;
       this.editMode = false;
       this.perfilForm.disable();
       

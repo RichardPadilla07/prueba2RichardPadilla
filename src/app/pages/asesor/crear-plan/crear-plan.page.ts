@@ -18,7 +18,7 @@ export class CrearPlanPage implements OnInit {
   selectedFile: File | null = null;
   previewUrl: string | null = null;
   isEditMode = false;
-  planId?: string;
+  planId?: number;
   loading = false;
 
   constructor(
@@ -31,34 +31,45 @@ export class CrearPlanPage implements OnInit {
   ) {
     this.planForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(3)]],
-      descripcion: ['', [Validators.required]],
       precio: [0, [Validators.required, Validators.min(0)]],
-      datos_gb: [0, [Validators.required, Validators.min(0)]],
-      minutos: [0, [Validators.required, Validators.min(0)]],
-      sms: [0, [Validators.required, Validators.min(0)]],
+      segmento: [''],
+      publico_objetivo: [''],
+      datos: [''],
+      minutos: [''],
+      sms: [''],
+      velocidad: [''],
+      redes_sociales: [''],
+      llamadas_internacionales: [''],
+      roaming: [''],
       activo: [true]
     });
   }
 
   async ngOnInit() {
-    this.planId = this.route.snapshot.paramMap.get('id') || undefined;
-    if (this.planId) {
+    const idParam = this.route.snapshot.paramMap.get('id');
+    if (idParam) {
+      this.planId = parseInt(idParam, 10);
       this.isEditMode = true;
       await this.loadPlan(this.planId);
     }
   }
 
-  async loadPlan(id: string) {
+  async loadPlan(id: number) {
     this.loading = true;
     const plan = await this.planesService.getPlanById(id);
     if (plan) {
       this.planForm.patchValue({
         nombre: plan.nombre,
-        descripcion: plan.descripcion,
         precio: plan.precio,
-        datos_gb: plan.datos_gb,
+        segmento: plan.segmento,
+        publico_objetivo: plan.publico_objetivo,
+        datos: plan.datos,
         minutos: plan.minutos,
         sms: plan.sms,
+        velocidad: plan.velocidad,
+        redes_sociales: plan.redes_sociales,
+        llamadas_internacionales: plan.llamadas_internacionales,
+        roaming: plan.roaming,
         activo: plan.activo
       });
       if (plan.imagen_url) {
@@ -101,7 +112,7 @@ export class CrearPlanPage implements OnInit {
 
       // Subir imagen si hay una nueva seleccionada
       if (this.selectedFile) {
-        const tempId = this.planId || Date.now().toString();
+        const tempId: number = this.planId || Date.now();
         const uploadResult = await this.planesService.uploadImage(this.selectedFile, tempId);
         if (uploadResult.success && uploadResult.url) {
           imageUrl = uploadResult.url;

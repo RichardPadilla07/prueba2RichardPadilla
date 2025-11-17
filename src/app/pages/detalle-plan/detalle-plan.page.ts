@@ -15,7 +15,7 @@ import { PlanMovil } from '../../models/database.types';
   templateUrl: './detalle-plan.page.html',
   styleUrls: ['./detalle-plan.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonButtons, IonBackButton, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonIcon, IonSpinner, IonChip, IonLabel]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonButtons, IonBackButton, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonIcon, IonSpinner, IonChip, IonLabel]
 })
 export class DetallePlanPage implements OnInit {
   plan?: PlanMovil;
@@ -42,13 +42,14 @@ export class DetallePlanPage implements OnInit {
     
     const planId = this.route.snapshot.paramMap.get('id');
     if (planId) {
-      await this.loadPlan(planId);
+      await this.loadPlan(parseInt(planId, 10));
     }
   }
 
-  async loadPlan(id: string) {
+  async loadPlan(id: number) {
     this.loading = true;
-    this.plan = await this.planesService.getPlanById(id);
+    const result = await this.planesService.getPlanById(id);
+    this.plan = result || undefined;
     this.loading = false;
   }
 
@@ -79,13 +80,6 @@ export class DetallePlanPage implements OnInit {
     const alert = await this.alertCtrl.create({
       header: 'Confirmar Contratación',
       message: `¿Deseas contratar el plan ${this.plan.nombre}?`,
-      inputs: [
-        {
-          name: 'notas',
-          type: 'textarea',
-          placeholder: 'Notas adicionales (opcional)'
-        }
-      ],
       buttons: [
         {
           text: 'Cancelar',
@@ -93,8 +87,8 @@ export class DetallePlanPage implements OnInit {
         },
         {
           text: 'Contratar',
-          handler: async (data) => {
-            await this.procesarContratacion(data.notas);
+          handler: async () => {
+            await this.procesarContratacion();
           }
         }
       ]
@@ -102,7 +96,7 @@ export class DetallePlanPage implements OnInit {
     await alert.present();
   }
 
-  async procesarContratacion(notas?: string) {
+  async procesarContratacion() {
     if (!this.plan) return;
 
     const loading = await this.loadingCtrl.create({
@@ -110,7 +104,7 @@ export class DetallePlanPage implements OnInit {
     });
     await loading.present();
 
-    const result = await this.contratacionesService.createContratacion(this.plan.id, notas);
+    const result = await this.contratacionesService.createContratacion(this.plan.id);
     await loading.dismiss();
 
     if (result.success) {

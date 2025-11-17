@@ -5,10 +5,8 @@
     </ion-buttons>
     <ion-title>
       <div *ngIf="contratacion">
-        <div class="chat-title">{{ contratacion.plan?.nombre }}</div>
-        <div class="chat-subtitle">
-          {{ isMiMensaje(mensajes[0] || {} as any) ? contratacion.usuario?.nombre : 'Asesor Comercial' }}
-        </div>
+        <div class="chat-title">{{ contratacion.planes_moviles?.nombre }}</div>
+        <div class="chat-subtitle">Chat</div>
       </div>
     </ion-title>
   </ion-toolbar>
@@ -27,11 +25,10 @@
     </div>
 
     <div *ngFor="let mensaje of mensajes" 
-         [class]="isMiMensaje(mensaje) ? 'message-item my-message' : 'message-item other-message'">
+         [class]="isMine(mensaje) ? 'message-item my-message' : 'message-item other-message'">
       <div class="message-bubble">
         <div class="message-header">
-          <span class="sender-name">{{ mensaje.emisor?.nombre }}</span>
-          <span class="message-time">{{ mensaje.created_at | date:'HH:mm' }}</span>
+          <span class="message-time">{{ mensaje.fecha | date:'HH:mm' }}</span>
         </div>
         <div class="message-text">{{ mensaje.mensaje }}</div>
       </div>

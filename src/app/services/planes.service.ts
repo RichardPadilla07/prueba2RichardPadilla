@@ -55,7 +55,7 @@ export class PlanesService {
     let query = this.supabase.client
       .from('planes_moviles')
       .select('*')
-      .order('created_at', { ascending: false });
+      .order('id', { ascending: false });
 
     if (!includeInactive) {
       query = query.eq('activo', true);
@@ -68,7 +68,7 @@ export class PlanesService {
   /**
    * Obtiene un plan por ID
    */
-  async getPlanById(id: string): Promise<PlanMovil | null> {
+  async getPlanById(id: number): Promise<PlanMovil | null> {
     const { data, error } = await this.supabase.client
       .from('planes_moviles')
       .select('*')
@@ -83,11 +83,9 @@ export class PlanesService {
    */
   async createPlan(plan: PlanMovilInsert): Promise<{ success: boolean; data?: PlanMovil; error?: string }> {
     try {
-      const userId = this.supabase.currentUserValue?.id;
-      
       const { data, error } = await this.supabase.client
         .from('planes_moviles')
-        .insert({ ...plan, created_by: userId })
+        .insert(plan)
         .select()
         .single();
 
@@ -102,7 +100,7 @@ export class PlanesService {
   /**
    * Actualiza un plan existente
    */
-  async updatePlan(id: string, updates: PlanMovilUpdate): Promise<{ success: boolean; error?: string }> {
+  async updatePlan(id: number, updates: PlanMovilUpdate): Promise<{ success: boolean; error?: string }> {
     try {
       const { error } = await this.supabase.client
         .from('planes_moviles')
@@ -120,7 +118,7 @@ export class PlanesService {
   /**
    * Elimina un plan (soft delete - marca como inactivo)
    */
-  async deletePlan(id: string): Promise<{ success: boolean; error?: string }> {
+  async deletePlan(id: number): Promise<{ success: boolean; error?: string }> {
     try {
       const { error } = await this.supabase.client
         .from('planes_moviles')
@@ -138,7 +136,7 @@ export class PlanesService {
   /**
    * Sube una imagen al bucket de Storage
    */
-  async uploadImage(file: File, planId: string): Promise<{ success: boolean; url?: string; error?: string }> {
+  async uploadImage(file: File, planId: number): Promise<{ success: boolean; url?: string; error?: string }> {
     try {
       const fileExt = file.name.split('.').pop();
       const fileName = `${planId}-${Date.now()}.${fileExt}`;

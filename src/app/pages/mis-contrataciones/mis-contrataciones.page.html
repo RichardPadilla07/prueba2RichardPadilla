@@ -17,27 +17,22 @@
     <ion-card *ngFor="let contratacion of contrataciones">
       <ion-card-header>
         <div class="header-content">
-          <ion-card-title>{{ contratacion.plan?.nombre }}</ion-card-title>
+          <ion-card-title>{{ contratacion.planes_moviles?.nombre }}</ion-card-title>
           <ion-chip [color]="getEstadoColor(contratacion.estado)">
             <ion-icon [name]="getEstadoIcon(contratacion.estado)"></ion-icon>
             <ion-label>{{ contratacion.estado | titlecase }}</ion-label>
           </ion-chip>
         </div>
         <ion-card-subtitle>
-          {{ contratacion.fecha_contratacion | date:'dd/MM/yyyy HH:mm' }}
+          {{ contratacion.fecha | date:'dd/MM/yyyy HH:mm' }}
         </ion-card-subtitle>
       </ion-card-header>
 
       <ion-card-content>
         <div class="plan-info">
-          <p><strong>Precio:</strong> ${{ contratacion.plan?.precio | number:'1.0-0' }}/mes</p>
-          <p><strong>Datos:</strong> {{ contratacion.plan?.datos_gb }} GB</p>
-          <p><strong>Minutos:</strong> {{ contratacion.plan?.minutos }}</p>
-        </div>
-
-        <div *ngIf="contratacion.notas" class="notas">
-          <p><strong>Notas:</strong></p>
-          <p>{{ contratacion.notas }}</p>
+          <p><strong>Precio:</strong> ${{ contratacion.planes_moviles?.precio | number:'1.0-0' }}/mes</p>
+          <p><strong>Datos:</strong> {{ contratacion.planes_moviles?.datos }} GB</p>
+          <p><strong>Minutos:</strong> {{ contratacion.planes_moviles?.minutos }}</p>
         </div>
 
         <ion-button expand="block" (click)="abrirChat(contratacion.id)">

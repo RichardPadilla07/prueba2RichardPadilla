@@ -34,7 +34,7 @@
             <div class="features">
               <div class="feature-item">
                 <ion-icon name="wifi-outline"></ion-icon>
-                <span>{{ plan.datos_gb }} GB</span>
+                <span>{{ plan.datos }} GB</span>
               </div>
               <div class="feature-item">
                 <ion-icon name="call-outline"></ion-icon>
@@ -45,7 +45,7 @@
                 <span>{{ plan.sms }} SMS</span>
               </div>
             </div>
-            <p class="descripcion">{{ plan.descripcion }}</p>
+            <p class="descripcion">{{ plan.publico_objetivo || plan.segmento }}</p>
             <ion-button expand="block" (click)="verDetalle(plan.id)">
               Ver Detalles
             </ion-button>

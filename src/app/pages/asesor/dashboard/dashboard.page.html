@@ -31,7 +31,7 @@
           </ion-card-header>
           <ion-card-content>
             <p class="precio">${{ plan.precio | number:'1.0-0' }}/mes</p>
-            <p class="descripcion">{{ plan.descripcion }}</p>
+            <p class="descripcion">{{ plan.publico_objetivo || plan.segmento }}</p>
             
             <div class="button-group">
               <ion-button size="small" fill="clear" (click)="verDetalle(plan.id)">
