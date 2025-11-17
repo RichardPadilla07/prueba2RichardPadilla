@@ -3,6 +3,7 @@ import { SupabaseService } from './supabase.service';
 import { BehaviorSubject } from 'rxjs';
 import { RealtimeChannel } from '@supabase/supabase-js';
 import { MensajeChat, MensajeChatInsert } from '../models/database.types';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,10 @@ export class ChatService {
   private realtimeChannel?: RealtimeChannel;
   private currentContratacionId?: number;
 
-  constructor(private supabase: SupabaseService) {}
+  constructor(
+    private supabase: SupabaseService,
+    private authService: AuthService
+  ) {}
 
   /**
    * Suscribe a mensajes de una contratación específica
@@ -81,12 +85,12 @@ export class ChatService {
    */
   async sendMensaje(contratacionId: number, mensaje: string): Promise<{ success: boolean; error?: string }> {
     try {
-      const userId = this.supabase.currentUserValue?.id;
-      if (!userId) throw new Error('Usuario no autenticado');
+      const currentProfile = this.authService.getCurrentProfile();
+      if (!currentProfile) throw new Error('Usuario no autenticado');
 
       const mensajeData: MensajeChatInsert = {
         contratacion_id: contratacionId,
-        emisor: userId,
+        emisor: currentProfile.user_id,
         mensaje
       };
 
@@ -107,8 +111,8 @@ export class ChatService {
    */
   async markAsRead(contratacionId: number): Promise<{ success: boolean; error?: string }> {
     try {
-      const userId = this.supabase.currentUserValue?.id;
-      if (!userId) throw new Error('Usuario no autenticado');
+      const currentProfile = this.authService.getCurrentProfile();
+      if (!currentProfile) throw new Error('Usuario no autenticado');
 
       // Nota: La tabla no tiene campo leido, esta función no hace nada por ahora
       return { success: true };

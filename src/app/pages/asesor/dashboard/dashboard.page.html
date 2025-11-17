@@ -40,6 +40,13 @@
               <ion-button size="small" fill="clear" (click)="editarPlan(plan.id)">
                 <ion-icon slot="icon-only" name="create-outline"></ion-icon>
               </ion-button>
+              <ion-button 
+                size="small" 
+                fill="clear" 
+                [color]="plan.activo ? 'warning' : 'success'"
+                (click)="toggleActivo(plan)">
+                <ion-icon slot="icon-only" [name]="plan.activo ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+              </ion-button>
               <ion-button size="small" fill="clear" color="danger" (click)="eliminarPlan(plan)">
                 <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
               </ion-button>

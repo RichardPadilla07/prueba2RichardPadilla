@@ -52,29 +52,23 @@ export class AuthService {
    */
   async register(email: string, password: string, nombre: string, telefono?: string): Promise<{ success: boolean; error?: string }> {
     try {
-      // 1. Crear usuario en Supabase Auth
+      // Crear usuario en auth.users con metadata
+      // El trigger handle_new_user() creará automáticamente el perfil
       const { data: authData, error: authError } = await this.supabase.client.auth.signUp({
         email,
-        password
+        password,
+        options: {
+          data: {
+            nombre: nombre,
+            telefono: telefono || ''
+          }
+        }
       });
 
       if (authError) throw authError;
       if (!authData.user) throw new Error('No se pudo crear el usuario');
 
-      // 2. Crear perfil en la tabla perfiles
-      const perfilData: PerfilInsert = {
-        user_id: authData.user.id,
-        nombre,
-        telefono,
-        rol: 'usuario_registrado' // Por defecto, todos los nuevos usuarios son registrados
-      };
-
-      const { error: perfilError } = await this.supabase.client
-        .from('perfiles')
-        .insert(perfilData);
-
-      if (perfilError) throw perfilError;
-
+      // El perfil se crea automáticamente mediante el trigger de base de datos
       return { success: true };
     } catch (error: any) {
       console.error('Error en registro:', error);
@@ -109,7 +103,7 @@ export class AuthService {
   async logout(): Promise<void> {
     await this.supabase.client.auth.signOut();
     this.currentProfile.next(null);
-    this.router.navigate(['/login']);
+    this.router.navigate(['/pages/login']);
   }
 
   /**
@@ -145,18 +139,18 @@ export class AuthService {
    */
   async updateProfile(updates: Partial<Perfil>): Promise<{ success: boolean; error?: string }> {
     try {
-      const userId = this.supabase.currentUserValue?.id;
-      if (!userId) throw new Error('Usuario no autenticado');
+      const currentProfile = this.currentProfile.value;
+      if (!currentProfile) throw new Error('Usuario no autenticado');
 
       const { error } = await this.supabase.client
         .from('perfiles')
         .update(updates)
-        .eq('user_id', userId);
+        .eq('user_id', currentProfile.user_id);
 
       if (error) throw error;
 
       // Recargar perfil
-      await this.loadUserProfile(userId);
+      await this.loadUserProfile(currentProfile.user_id);
       return { success: true };
     } catch (error: any) {
       console.error('Error actualizando perfil:', error);

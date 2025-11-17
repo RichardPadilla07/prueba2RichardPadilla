@@ -116,13 +116,31 @@ export class PlanesService {
   }
 
   /**
-   * Elimina un plan (soft delete - marca como inactivo)
+   * Cambia el estado activo/inactivo de un plan
+   */
+  async toggleActivo(id: number, activo: boolean): Promise<{ success: boolean; error?: string }> {
+    try {
+      const { error } = await this.supabase.client
+        .from('planes_moviles')
+        .update({ activo })
+        .eq('id', id);
+
+      if (error) throw error;
+      return { success: true };
+    } catch (error: any) {
+      console.error('Error cambiando estado del plan:', error);
+      return { success: false, error: error.message };
+    }
+  }
+
+  /**
+   * Elimina un plan permanentemente
    */
   async deletePlan(id: number): Promise<{ success: boolean; error?: string }> {
     try {
       const { error } = await this.supabase.client
         .from('planes_moviles')
-        .update({ activo: false })
+        .delete()
         .eq('id', id);
 
       if (error) throw error;

@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonButton, IonIcon, IonSpinner, IonFab, IonFabButton, IonGrid, IonRow, IonCol, IonChip, IonLabel, AlertController, LoadingController, ToastController } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { addOutline, createOutline, trashOutline, eyeOutline } from 'ionicons/icons';
+import { addOutline, createOutline, trashOutline, eyeOutline, eyeOffOutline } from 'ionicons/icons';
 import { PlanesService } from '../../../services/planes.service';
 import { PlanMovil } from '../../../models/database.types';
 import { Subscription } from 'rxjs';
@@ -28,7 +28,7 @@ export class DashboardPage implements OnInit, OnDestroy {
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController
   ) {
-    addIcons({ addOutline, createOutline, trashOutline, eyeOutline });
+    addIcons({ addOutline, createOutline, trashOutline, eyeOutline, eyeOffOutline });
   }
 
   ngOnInit() {
@@ -64,6 +64,35 @@ export class DashboardPage implements OnInit, OnDestroy {
 
   editarPlan(planId: number) {
     this.router.navigate(['/pages/asesor/crear-plan', planId]);
+  }
+
+  async toggleActivo(plan: PlanMovil) {
+    const loading = await this.loadingCtrl.create({
+      message: plan.activo ? 'Desactivando plan...' : 'Activando plan...'
+    });
+    await loading.present();
+
+    const result = await this.planesService.toggleActivo(plan.id, !plan.activo);
+    await loading.dismiss();
+
+    if (result.success) {
+      // Actualizar localmente
+      plan.activo = !plan.activo;
+      
+      const toast = await this.toastCtrl.create({
+        message: plan.activo ? 'Plan activado' : 'Plan desactivado',
+        duration: 2000,
+        color: 'success'
+      });
+      await toast.present();
+    } else {
+      const toast = await this.toastCtrl.create({
+        message: 'Error al cambiar el estado',
+        duration: 2000,
+        color: 'danger'
+      });
+      await toast.present();
+    }
   }
 
   async eliminarPlan(plan: PlanMovil) {
@@ -102,6 +131,9 @@ export class DashboardPage implements OnInit, OnDestroy {
     await loading.dismiss();
 
     if (result.success) {
+      // Eliminar el plan de la lista local inmediatamente
+      this.planes = this.planes.filter(p => p.id !== plan.id);
+      
       const toast = await this.toastCtrl.create({
         message: 'Plan eliminado correctamente',
         duration: 2000,
