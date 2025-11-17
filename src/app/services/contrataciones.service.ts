@@ -148,12 +148,21 @@ export class ContratacionesService {
    */
   async updateEstado(id: number, estado: ContratoEstado): Promise<{ success: boolean; error?: string }> {
     try {
-      const { error } = await this.supabase.client
+      console.log('Actualizando contratación:', { id, estado });
+      
+      const { data, error } = await this.supabase.client
         .from('contrataciones')
         .update({ estado })
-        .eq('id', id);
+        .eq('id', id)
+        .select();
+
+      console.log('Resultado de actualización:', { data, error });
 
       if (error) throw error;
+      
+      // Recargar contrataciones para reflejar el cambio
+      await this.loadContrataciones();
+      
       return { success: true };
     } catch (error: any) {
       console.error('Error actualizando estado:', error);
