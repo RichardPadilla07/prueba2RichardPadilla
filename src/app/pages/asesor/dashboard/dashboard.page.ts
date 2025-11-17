@@ -2,10 +2,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonButton, IonIcon, IonSpinner, IonFab, IonFabButton, IonGrid, IonRow, IonCol, IonChip, IonLabel, AlertController, LoadingController, ToastController } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonButton, IonButtons, IonIcon, IonSpinner, IonFab, IonFabButton, IonGrid, IonRow, IonCol, IonChip, IonLabel, AlertController, LoadingController, ToastController } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { addOutline, createOutline, trashOutline, eyeOutline, eyeOffOutline } from 'ionicons/icons';
+import { addOutline, createOutline, trashOutline, eyeOutline, eyeOffOutline, logOutOutline } from 'ionicons/icons';
 import { PlanesService } from '../../../services/planes.service';
+import { AuthService } from '../../../services/auth.service';
 import { PlanMovil } from '../../../models/database.types';
 import { Subscription } from 'rxjs';
 
@@ -14,7 +15,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonButton, IonIcon, IonSpinner, IonFab, IonFabButton, IonGrid, IonRow, IonCol, IonChip, IonLabel]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonButton, IonButtons, IonIcon, IonSpinner, IonFab, IonFabButton, IonGrid, IonRow, IonCol, IonChip, IonLabel]
 })
 export class DashboardPage implements OnInit, OnDestroy {
   planes: PlanMovil[] = [];
@@ -23,12 +24,13 @@ export class DashboardPage implements OnInit, OnDestroy {
 
   constructor(
     private planesService: PlanesService,
+    private authService: AuthService,
     private router: Router,
     private alertCtrl: AlertController,
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController
   ) {
-    addIcons({ addOutline, createOutline, trashOutline, eyeOutline, eyeOffOutline });
+    addIcons({ addOutline, createOutline, trashOutline, eyeOutline, eyeOffOutline, logOutOutline });
   }
 
   ngOnInit() {
@@ -152,5 +154,30 @@ export class DashboardPage implements OnInit, OnDestroy {
 
   verContrataciones() {
     this.router.navigate(['/pages/asesor/contrataciones-asesor']);
+  }
+
+  async cerrarSesion() {
+    const alert = await this.alertCtrl.create({
+      header: 'Cerrar Sesión',
+      message: '¿Estás seguro de que deseas cerrar sesión?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Cerrar Sesión',
+          role: 'destructive',
+          handler: async () => {
+            // Limpiar localStorage
+            localStorage.clear();
+            
+            // Cerrar sesión en Supabase
+            await this.authService.logout();
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 }

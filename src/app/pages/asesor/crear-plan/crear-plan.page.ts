@@ -39,8 +39,6 @@ export class CrearPlanPage implements OnInit {
       sms: [''],
       velocidad: [''],
       redes_sociales: [''],
-      llamadas_internacionales: [''],
-      roaming: [''],
       activo: [true]
     });
   }
@@ -68,8 +66,6 @@ export class CrearPlanPage implements OnInit {
         sms: plan.sms,
         velocidad: plan.velocidad,
         redes_sociales: plan.redes_sociales,
-        llamadas_internacionales: plan.llamadas_internacionales,
-        roaming: plan.roaming,
         activo: plan.activo
       });
       if (plan.imagen_url) {

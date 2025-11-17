@@ -23,8 +23,6 @@ export interface PlanMovil {
   sms?: string;
   velocidad?: string;
   redes_sociales?: string;
-  llamadas_internacionales?: string;
-  roaming?: string;
   imagen_url?: string;
   activo: boolean;
 }
