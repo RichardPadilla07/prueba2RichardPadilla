@@ -1,0 +1,82 @@
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+}
+
+.perfil-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.avatar-section {
+  text-align: center;
+  margin: 2rem 0;
+
+  .avatar-icon {
+    font-size: 120px;
+    color: var(--ion-color-primary);
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+    margin: 0.5rem 0;
+  }
+
+  ion-chip {
+    margin-top: 0.5rem;
+  }
+}
+
+ion-item {
+  margin-bottom: 1rem;
+  
+  ion-icon {
+    color: var(--ion-color-primary);
+  }
+}
+
+.button-group {
+  margin-top: 1.5rem;
+}
+
+.edit-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--ion-color-light);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  strong {
+    color: var(--ion-color-dark);
+  }
+
+  span {
+    color: var(--ion-color-medium);
+  }
+
+  .user-id {
+    font-family: monospace;
+    font-size: 0.85rem;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.logout-button {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}

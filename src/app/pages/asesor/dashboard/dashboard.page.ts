@@ -1,20 +1,124 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { Router } from '@angular/router';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonButton, IonIcon, IonSpinner, IonFab, IonFabButton, IonGrid, IonRow, IonCol, IonChip, IonLabel, AlertController, LoadingController, ToastController } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { addOutline, createOutline, trashOutline, eyeOutline } from 'ionicons/icons';
+import { PlanesService } from '../../../services/planes.service';
+import { PlanMovil } from '../../../models/database.types';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonButton, IonIcon, IonSpinner, IonFab, IonFabButton, IonGrid, IonRow, IonCol, IonChip, IonLabel]
 })
-export class DashboardPage implements OnInit {
+export class DashboardPage implements OnInit, OnDestroy {
+  planes: PlanMovil[] = [];
+  loading = false;
+  private planesSubscription?: Subscription;
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor(
+    private planesService: PlanesService,
+    private router: Router,
+    private alertCtrl: AlertController,
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController
+  ) {
+    addIcons({ addOutline, createOutline, trashOutline, eyeOutline });
   }
 
+  ngOnInit() {
+    this.loadPlanes();
+    this.subscribeToPlanesChanges();
+  }
+
+  ngOnDestroy() {
+    if (this.planesSubscription) {
+      this.planesSubscription.unsubscribe();
+    }
+  }
+
+  async loadPlanes() {
+    this.loading = true;
+    this.planes = await this.planesService.getAllPlanes(true);
+    this.loading = false;
+  }
+
+  subscribeToPlanesChanges() {
+    this.planesSubscription = this.planesService.planes$.subscribe(planes => {
+      this.planes = planes;
+    });
+  }
+
+  crearPlan() {
+    this.router.navigate(['/pages/asesor/crear-plan']);
+  }
+
+  verDetalle(planId: string) {
+    this.router.navigate(['/pages/detalle-plan', planId]);
+  }
+
+  editarPlan(planId: string) {
+    this.router.navigate(['/pages/asesor/crear-plan', planId]);
+  }
+
+  async eliminarPlan(plan: PlanMovil) {
+    const alert = await this.alertCtrl.create({
+      header: 'Confirmar eliminación',
+      message: `¿Estás seguro de eliminar el plan "${plan.nombre}"?`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Eliminar',
+          role: 'destructive',
+          handler: async () => {
+            await this.procesarEliminacion(plan);
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async procesarEliminacion(plan: PlanMovil) {
+    const loading = await this.loadingCtrl.create({
+      message: 'Eliminando plan...'
+    });
+    await loading.present();
+
+    // Eliminar imagen si existe
+    if (plan.imagen_url) {
+      await this.planesService.deleteImage(plan.imagen_url);
+    }
+
+    const result = await this.planesService.deletePlan(plan.id);
+    await loading.dismiss();
+
+    if (result.success) {
+      const toast = await this.toastCtrl.create({
+        message: 'Plan eliminado correctamente',
+        duration: 2000,
+        color: 'success'
+      });
+      await toast.present();
+    } else {
+      const toast = await this.toastCtrl.create({
+        message: result.error || 'Error al eliminar el plan',
+        duration: 3000,
+        color: 'danger'
+      });
+      await toast.present();
+    }
+  }
+
+  verContrataciones() {
+    this.router.navigate(['/pages/asesor/contrataciones-asesor']);
+  }
 }

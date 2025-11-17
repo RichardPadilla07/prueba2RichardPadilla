@@ -1,13 +1,72 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>registro</ion-title>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/pages/login"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Crear Cuenta</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">registro</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="registro-container">
+    <div class="header-section">
+      <ion-text color="primary">
+        <h2>Regístrate</h2>
+      </ion-text>
+      <p>Crea tu cuenta y comienza a disfrutar de nuestros planes</p>
+    </div>
+
+    <form [formGroup]="registroForm" (ngSubmit)="onRegister()">
+      <ion-item>
+        <ion-label position="floating">Nombre completo</ion-label>
+        <ion-input type="text" formControlName="nombre" placeholder="Tu nombre"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="registroForm.get('nombre')?.touched && registroForm.get('nombre')?.errors">
+        <p class="error-text">El nombre debe tener al menos 3 caracteres</p>
+      </ion-text>
+
+      <ion-item>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input type="email" formControlName="email" placeholder="correo@ejemplo.com"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="registroForm.get('email')?.touched && registroForm.get('email')?.errors">
+        <p class="error-text">Email inválido</p>
+      </ion-text>
+
+      <ion-item>
+        <ion-label position="floating">Teléfono (opcional)</ion-label>
+        <ion-input type="tel" formControlName="telefono" placeholder="1234567890"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="registroForm.get('telefono')?.touched && registroForm.get('telefono')?.errors">
+        <p class="error-text">El teléfono debe tener 10 dígitos</p>
+      </ion-text>
+
+      <ion-item>
+        <ion-label position="floating">Contraseña</ion-label>
+        <ion-input type="password" formControlName="password" placeholder="Mínimo 6 caracteres"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="registroForm.get('password')?.touched && registroForm.get('password')?.errors">
+        <p class="error-text">La contraseña debe tener al menos 6 caracteres</p>
+      </ion-text>
+
+      <ion-item>
+        <ion-label position="floating">Confirmar Contraseña</ion-label>
+        <ion-input type="password" formControlName="confirmPassword" placeholder="Repite tu contraseña"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="registroForm.get('confirmPassword')?.touched && registroForm.get('confirmPassword')?.errors?.['passwordMismatch']">
+        <p class="error-text">Las contraseñas no coinciden</p>
+      </ion-text>
+
+      <ion-button expand="block" type="submit" [disabled]="!registroForm.valid || loading" class="ion-margin-top">
+        <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+        <span *ngIf="!loading">Crear Cuenta</span>
+      </ion-button>
+    </form>
+
+    <div class="links-section ion-margin-top">
+      <ion-button fill="clear" (click)="goToLogin()">
+        ¿Ya tienes cuenta? Inicia sesión
+      </ion-button>
+    </div>
+  </div>
 </ion-content>

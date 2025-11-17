@@ -1,13 +1,94 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>detalle-plan</ion-title>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/pages/catalogo"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalle del Plan</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">detalle-plan</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div *ngIf="loading" class="loading-container">
+    <ion-spinner></ion-spinner>
+  </div>
+
+  <div *ngIf="!loading && plan" class="plan-detalle">
+    <img [src]="plan.imagen_url" *ngIf="plan.imagen_url" alt="{{plan.nombre}}" class="plan-imagen" />
+    
+    <div class="plan-info ion-padding">
+      <h1>{{ plan.nombre }}</h1>
+      <h2 class="precio">${{ plan.precio | number:'1.0-0' }}/mes</h2>
+      
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Características</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="caracteristicas">
+            <div class="caracteristica-item">
+              <ion-icon name="wifi-outline" color="primary"></ion-icon>
+              <div>
+                <h3>Datos Móviles</h3>
+                <p>{{ plan.datos_gb }} GB de internet</p>
+              </div>
+            </div>
+            
+            <div class="caracteristica-item">
+              <ion-icon name="call-outline" color="primary"></ion-icon>
+              <div>
+                <h3>Minutos de Llamadas</h3>
+                <p>{{ plan.minutos }} minutos</p>
+              </div>
+            </div>
+            
+            <div class="caracteristica-item">
+              <ion-icon name="chatbubble-outline" color="primary"></ion-icon>
+              <div>
+                <h3>Mensajes SMS</h3>
+                <p>{{ plan.sms }} mensajes</p>
+              </div>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Descripción</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p>{{ plan.descripcion }}</p>
+        </ion-card-content>
+      </ion-card>
+
+      <div class="action-buttons ion-padding">
+        <ion-button 
+          expand="block" 
+          size="large" 
+          (click)="contratar()"
+          *ngIf="isUsuarioRegistrado">
+          <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+          Contratar Ahora
+        </ion-button>
+
+        <ion-button 
+          expand="block" 
+          size="large" 
+          (click)="goToLogin()"
+          *ngIf="!isAuthenticated">
+          Inicia sesión para contratar
+        </ion-button>
+
+        <ion-chip color="warning" *ngIf="isAuthenticated && !isUsuarioRegistrado">
+          <ion-label>Este plan solo puede ser contratado por usuarios registrados</ion-label>
+        </ion-chip>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && !plan" class="error-state ion-padding">
+    <ion-icon name="alert-circle-outline" size="large" color="danger"></ion-icon>
+    <h2>Plan no encontrado</h2>
+    <ion-button routerLink="/pages/catalogo">Volver al catálogo</ion-button>
+  </div>
 </ion-content>

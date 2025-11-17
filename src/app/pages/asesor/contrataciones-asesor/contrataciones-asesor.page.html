@@ -1,13 +1,111 @@
 <ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/pages/asesor/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Contrataciones</ion-title>
+  </ion-toolbar>
   <ion-toolbar>
-    <ion-title>contrataciones-asesor</ion-title>
+    <ion-segment [(ngModel)]="filtroEstado" (ionChange)="onFiltroChange($event)">
+      <ion-segment-button value="todas">
+        <ion-label>Todas</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="pendiente">
+        <ion-label>Pendientes</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="aceptado">
+        <ion-label>Aceptadas</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="rechazado">
+        <ion-label>Rechazadas</ion-label>
+      </ion-segment-button>
+    </ion-segment>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">contrataciones-asesor</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div *ngIf="loading" class="loading-container">
+    <ion-spinner></ion-spinner>
+  </div>
+
+  <div *ngIf="!loading" class="ion-padding">
+    <ion-card *ngFor="let contratacion of contratacionesFiltradas">
+      <ion-card-header>
+        <div class="header-content">
+          <ion-card-title>{{ contratacion.plan?.nombre }}</ion-card-title>
+          <ion-chip [color]="getEstadoColor(contratacion.estado)">
+            <ion-icon [name]="getEstadoIcon(contratacion.estado)"></ion-icon>
+            <ion-label>{{ contratacion.estado | titlecase }}</ion-label>
+          </ion-chip>
+        </div>
+        <ion-card-subtitle>
+          {{ contratacion.fecha_contratacion | date:'dd/MM/yyyy HH:mm' }}
+        </ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div class="cliente-info">
+          <div class="info-item">
+            <ion-icon name="person-outline"></ion-icon>
+            <span>{{ contratacion.usuario?.nombre }}</span>
+          </div>
+          <div class="info-item">
+            <ion-icon name="mail-outline"></ion-icon>
+            <span>{{ contratacion.usuario?.email }}</span>
+          </div>
+          <div class="info-item" *ngIf="contratacion.usuario?.telefono">
+            <ion-icon name="call-outline"></ion-icon>
+            <span>{{ contratacion.usuario?.telefono }}</span>
+          </div>
+        </div>
+
+        <div class="plan-info">
+          <p><strong>Precio:</strong> ${{ contratacion.plan?.precio | number:'1.0-0' }}/mes</p>
+          <p><strong>Datos:</strong> {{ contratacion.plan?.datos_gb }} GB</p>
+        </div>
+
+        <div *ngIf="contratacion.notas" class="notas">
+          <p><strong>Notas del cliente:</strong></p>
+          <p>{{ contratacion.notas }}</p>
+        </div>
+
+        <div class="action-buttons">
+          <ion-button 
+            *ngIf="contratacion.estado === 'pendiente'"
+            expand="block" 
+            color="success"
+            (click)="cambiarEstado(contratacion, 'aceptado')">
+            <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+            Aceptar
+          </ion-button>
+
+          <ion-button 
+            *ngIf="contratacion.estado === 'pendiente'"
+            expand="block" 
+            color="danger"
+            (click)="cambiarEstado(contratacion, 'rechazado')">
+            <ion-icon name="close-circle-outline" slot="start"></ion-icon>
+            Rechazar
+          </ion-button>
+
+          <ion-button 
+            expand="block" 
+            fill="outline"
+            (click)="abrirChat(contratacion.id)">
+            <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
+            Chat con Cliente
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div *ngIf="!loading && contratacionesFiltradas.length === 0" class="empty-state">
+    <ion-icon name="document-text-outline" size="large"></ion-icon>
+    <h2>No hay contrataciones {{ filtroEstado !== 'todas' ? filtroEstado + 's' : '' }}</h2>
+  </div>
 </ion-content>

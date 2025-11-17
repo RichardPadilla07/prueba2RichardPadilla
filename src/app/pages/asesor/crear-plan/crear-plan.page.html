@@ -1,13 +1,74 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>crear-plan</ion-title>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/pages/asesor/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ isEditMode ? 'Editar Plan' : 'Crear Plan' }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">crear-plan</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div *ngIf="loading" class="loading-container">
+    <ion-spinner></ion-spinner>
+  </div>
+
+  <ion-card *ngIf="!loading">
+    <ion-card-content>
+      <form [formGroup]="planForm" (ngSubmit)="guardarPlan()">
+        <ion-item>
+          <ion-label position="floating">Nombre del Plan *</ion-label>
+          <ion-input type="text" formControlName="nombre"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Descripción *</ion-label>
+          <ion-textarea formControlName="descripcion" rows="3"></ion-textarea>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Precio ($/mes) *</ion-label>
+          <ion-input type="number" formControlName="precio"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Datos (GB) *</ion-label>
+          <ion-input type="number" formControlName="datos_gb"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Minutos *</ion-label>
+          <ion-input type="number" formControlName="minutos"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">SMS *</ion-label>
+          <ion-input type="number" formControlName="sms"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Plan Activo</ion-label>
+          <ion-toggle formControlName="activo" slot="end"></ion-toggle>
+        </ion-item>
+
+        <div class="image-section">
+          <ion-label>
+            <h3>Imagen del Plan</h3>
+          </ion-label>
+          <input type="file" accept="image/*" (change)="onFileSelected($event)" #fileInput />
+          
+          <div *ngIf="previewUrl" class="image-preview">
+            <img [src]="previewUrl" alt="Preview" />
+          </div>
+        </div>
+
+        <ion-button 
+          expand="block" 
+          type="submit" 
+          [disabled]="!planForm.valid"
+          class="ion-margin-top">
+          {{ isEditMode ? 'Actualizar Plan' : 'Crear Plan' }}
+        </ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
