@@ -131,13 +131,31 @@ export class ContratacionesAsesorPage implements OnInit, OnDestroy {
     await loading.dismiss();
 
     if (result.success) {
+      // Actualizar localmente el estado en las listas
+      const contratacion = this.contrataciones.find(c => c.id === contratacionId);
+      if (contratacion) {
+        contratacion.estado = nuevoEstado;
+      }
+      
+      const contratacionFiltrada = this.contratacionesFiltradas.find(c => c.id === contratacionId);
+      if (contratacionFiltrada) {
+        contratacionFiltrada.estado = nuevoEstado;
+      }
+      
+      // Volver a aplicar el filtro para que se mueva a la pestaña correcta
+      this.aplicarFiltro();
+      
       const toast = await this.toastCtrl.create({
         message: 'Estado actualizado correctamente',
         duration: 2000,
         color: 'success'
       });
       await toast.present();
-      await this.loadContrataciones();
+      
+      // Recargar después de un momento para sincronizar
+      setTimeout(() => {
+        this.loadContrataciones();
+      }, 500);
     } else {
       const toast = await this.toastCtrl.create({
         message: result.error || 'Error al actualizar',

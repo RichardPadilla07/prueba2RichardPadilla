@@ -6,6 +6,7 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardHeader, Io
 import { addIcons } from 'ionicons';
 import { chatbubbleOutline, timeOutline, checkmarkCircleOutline, closeCircleOutline } from 'ionicons/icons';
 import { ContratacionesService } from '../../services/contrataciones.service';
+import { AuthService } from '../../services/auth.service';
 import { Contratacion } from '../../models/database.types';
 import { Subscription } from 'rxjs';
 
@@ -23,6 +24,7 @@ export class MisContratacionesPage implements OnInit, OnDestroy {
 
   constructor(
     private contratacionesService: ContratacionesService,
+    private authService: AuthService,
     private router: Router
   ) {
     addIcons({ chatbubbleOutline, timeOutline, checkmarkCircleOutline, closeCircleOutline });
@@ -47,8 +49,10 @@ export class MisContratacionesPage implements OnInit, OnDestroy {
 
   subscribeToContratacionesChanges() {
     this.contratacionesSubscription = this.contratacionesService.contrataciones$.subscribe(contrataciones => {
-      if (contrataciones.length > 0) {
-        this.contrataciones = contrataciones;
+      // Filtrar solo las contrataciones del usuario actual
+      const userId = this.authService.getCurrentProfile()?.user_id;
+      if (userId) {
+        this.contrataciones = contrataciones.filter(c => c.usuario_id === userId);
       }
     });
   }

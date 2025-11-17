@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SupabaseService } from './supabase.service';
+import { AuthService } from './auth.service';
 import { BehaviorSubject } from 'rxjs';
 import { RealtimeChannel } from '@supabase/supabase-js';
 import { Contratacion, ContratacionInsert, ContratacionUpdate, ContratoEstado } from '../models/database.types';
@@ -12,7 +13,10 @@ export class ContratacionesService {
   public contrataciones$ = this.contrataciones.asObservable();
   private realtimeChannel?: RealtimeChannel;
 
-  constructor(private supabase: SupabaseService) {
+  constructor(
+    private supabase: SupabaseService,
+    private authService: AuthService
+  ) {
     this.subscribeToChanges();
   }
 
@@ -36,8 +40,8 @@ export class ContratacionesService {
    * Carga contrataciones según el rol del usuario
    */
   private async loadContrataciones() {
-    const userId = this.supabase.currentUserValue?.id;
-    if (!userId) return;
+    const currentProfile = this.authService.getCurrentProfile();
+    if (!currentProfile) return;
 
     // Obtener las contrataciones con información de plan y usuario
     const { data, error } = await this.supabase.client
@@ -57,8 +61,8 @@ export class ContratacionesService {
    * Obtiene las contrataciones del usuario actual
    */
   async getMisContrataciones(): Promise<Contratacion[]> {
-    const userId = this.supabase.currentUserValue?.id;
-    if (!userId) return [];
+    const currentProfile = this.authService.getCurrentProfile();
+    if (!currentProfile) return [];
 
     const { data, error } = await this.supabase.client
       .from('contrataciones')
@@ -66,7 +70,7 @@ export class ContratacionesService {
         *,
         planes_moviles(*)
       `)
-      .eq('usuario_id', userId)
+      .eq('usuario_id', currentProfile.user_id)
       .order('fecha', { ascending: false });
 
     return data as any || [];
@@ -113,11 +117,11 @@ export class ContratacionesService {
    */
   async createContratacion(planId: number): Promise<{ success: boolean; data?: Contratacion; error?: string }> {
     try {
-      const userId = this.supabase.currentUserValue?.id;
-      if (!userId) throw new Error('Usuario no autenticado');
+      const currentProfile = this.authService.getCurrentProfile();
+      if (!currentProfile) throw new Error('Usuario no autenticado');
 
       const contratacionData: ContratacionInsert = {
-        usuario_id: userId,
+        usuario_id: currentProfile.user_id,
         plan_id: planId,
         estado: 'pendiente'
       };

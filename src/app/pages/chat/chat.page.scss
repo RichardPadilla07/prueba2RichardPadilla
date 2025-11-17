@@ -105,6 +105,15 @@
   font-size: 0.95rem;
   line-height: 1.4;
   white-space: pre-wrap;
+  color: inherit;
+}
+
+.my-message .message-text {
+  color: white !important;
+}
+
+.other-message .message-text {
+  color: #000000 !important;
 }
 
 .empty-chat {
@@ -134,11 +143,25 @@ ion-footer {
 
   ion-item {
     --background: white;
+    --color: #000000;
   }
 
   ion-textarea {
     --padding-start: 0;
     --padding-end: 0;
+    --color: #000000;
+    --placeholder-color: #999999;
+    color: #000000 !important;
+    
+    textarea {
+      color: #000000 !important;
+      font-size: 1rem;
+      -webkit-text-fill-color: #000000 !important;
+    }
+    
+    .native-textarea {
+      color: #000000 !important;
+    }
   }
 
   ion-button {
