@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonButtons, IonBackButton, IonCard, IonCardContent, IonItem, IonLabel, IonInput, IonTextarea, IonToggle, IonSpinner, LoadingController, ToastController } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonButtons, IonBackButton, IonCard, IonCardContent, IonItem, IonLabel, IonInput, IonTextarea, IonToggle, IonSpinner, IonIcon, LoadingController, ToastController } from '@ionic/angular/standalone';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { addIcons } from 'ionicons';
+import { imageOutline } from 'ionicons/icons';
 import { PlanesService } from '../../../services/planes.service';
 import { PlanMovil } from '../../../models/database.types';
 
@@ -11,7 +14,7 @@ import { PlanMovil } from '../../../models/database.types';
   templateUrl: './crear-plan.page.html',
   styleUrls: ['./crear-plan.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, ReactiveFormsModule, IonButton, IonButtons, IonBackButton, IonCard, IonCardContent, IonItem, IonLabel, IonInput, IonTextarea, IonToggle, IonSpinner]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, ReactiveFormsModule, IonButton, IonButtons, IonBackButton, IonCard, IonCardContent, IonItem, IonLabel, IonInput, IonTextarea, IonToggle, IonSpinner, IonIcon]
 })
 export class CrearPlanPage implements OnInit {
   planForm: FormGroup;
@@ -29,6 +32,7 @@ export class CrearPlanPage implements OnInit {
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController
   ) {
+    addIcons({ imageOutline });
     this.planForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(3)]],
       precio: [0, [Validators.required, Validators.min(0.01)]],
@@ -75,15 +79,31 @@ export class CrearPlanPage implements OnInit {
     this.loading = false;
   }
 
-  onFileSelected(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      this.selectedFile = file;
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.previewUrl = e.target.result;
-      };
-      reader.readAsDataURL(file);
+  async seleccionarImagen() {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: CameraResultType.DataUrl,
+        source: CameraSource.Photos // Solo galería
+      });
+
+      if (image.dataUrl) {
+        this.previewUrl = image.dataUrl;
+        
+        // Convertir DataUrl a File para subir
+        const response = await fetch(image.dataUrl);
+        const blob = await response.blob();
+        this.selectedFile = new File([blob], 'plan-image.jpg', { type: 'image/jpeg' });
+      }
+    } catch (error) {
+      console.error('Error seleccionando imagen:', error);
+      const toast = await this.toastCtrl.create({
+        message: 'Error al seleccionar la imagen',
+        duration: 2000,
+        color: 'danger'
+      });
+      await toast.present();
     }
   }
 

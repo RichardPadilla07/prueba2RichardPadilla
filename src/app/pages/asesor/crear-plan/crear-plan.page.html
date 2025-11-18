@@ -69,7 +69,11 @@
           <ion-label>
             <h3>Imagen del Plan</h3>
           </ion-label>
-          <input type="file" accept="image/*" (change)="onFileSelected($event)" #fileInput />
+          
+          <ion-button expand="block" fill="outline" (click)="seleccionarImagen()">
+            <ion-icon name="image-outline" slot="start"></ion-icon>
+            Seleccionar Imagen
+          </ion-button>
           
           <div *ngIf="previewUrl" class="image-preview">
             <img [src]="previewUrl" alt="Preview" />
