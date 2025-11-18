@@ -139,15 +139,30 @@
 }
 
 ion-content {
-  --background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+  --background: white;
   --color: #1a1a1a;
+  height: 100%;
+  contain: none !important;
+}
+
+ion-content::part(scroll) {
+  overflow-y: scroll !important;
+  -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior-y: contain;
+}
+
+.ion-page {
+  contain: none !important;
+}
+
+ion-app {
+  contain: none !important;
 }
 
 ion-card {
   border-radius: var(--border-radius-lg) !important;
   box-shadow: var(--shadow-md) !important;
   transition: all var(--transition-base);
-  overflow: hidden;
   background: white;
   color: #1a1a1a;
   
@@ -306,12 +321,4 @@ ion-tab-bar {
 /** Scroll suave **/
 * {
   scroll-behavior: smooth;
-}
-
-ion-content {
-  --offset-bottom: auto !important;
-  
-  &::part(scroll) {
-    overflow-y: auto !important;
-  }
 }

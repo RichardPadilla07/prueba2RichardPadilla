@@ -1,16 +1,6 @@
 ion-content {
-  --background: white !important;
-  --color: #1a1a1a !important;
-  background: white !important;
-}
-
-ion-content::part(background) {
-  background: white !important;
-}
-
-ion-content::part(scroll) {
-  background: white !important;
-  overflow-y: auto !important;
+  --background: white;
+  --color: #1a1a1a;
 }
 
 ion-card {
