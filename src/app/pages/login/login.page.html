@@ -4,44 +4,76 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
-  <div class="login-container">
-    <div class="logo-section">
-      <ion-text color="primary">
-        <h1>MoviPlanes</h1>
-      </ion-text>
-      <p>Tu proveedor de confianza</p>
+<ion-content [fullscreen]="true" class="login-content">
+  <div class="background-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+  </div>
+
+  <div class="login-container animate-fade-in">
+    <div class="logo-section animate-scale-in">
+      <div class="logo-circle">
+        <ion-icon name="phone-portrait-outline" class="logo-icon"></ion-icon>
+      </div>
+      <h1 class="gradient-text">MoviPlanes</h1>
+      <p class="subtitle">Tu proveedor de confianza</p>
     </div>
 
-    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-      <ion-item>
-        <ion-label position="floating">Email</ion-label>
-        <ion-input type="email" formControlName="email" placeholder="correo@ejemplo.com"></ion-input>
-      </ion-item>
-      <ion-text color="danger" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.errors">
-        <p class="error-text">Email inválido</p>
-      </ion-text>
+    <ion-card class="glass-card login-card">
+      <ion-card-content>
+        <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+          <div class="input-group">
+            <ion-item lines="none" class="modern-input">
+              <ion-icon name="mail-outline" slot="start" color="primary"></ion-icon>
+              <ion-label position="floating">Email</ion-label>
+              <ion-input type="email" formControlName="email" placeholder="correo@ejemplo.com"></ion-input>
+            </ion-item>
+            <ion-text color="danger" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.errors">
+              <p class="error-text">
+                <ion-icon name="alert-circle-outline"></ion-icon>
+                Email inválido
+              </p>
+            </ion-text>
+          </div>
 
-      <ion-item>
-        <ion-label position="floating">Contraseña</ion-label>
-        <ion-input type="password" formControlName="password" placeholder="Mínimo 6 caracteres"></ion-input>
-      </ion-item>
-      <ion-text color="danger" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.errors">
-        <p class="error-text">La contraseña debe tener al menos 6 caracteres</p>
-      </ion-text>
+          <div class="input-group">
+            <ion-item lines="none" class="modern-input">
+              <ion-icon name="lock-closed-outline" slot="start" color="primary"></ion-icon>
+              <ion-label position="floating">Contraseña</ion-label>
+              <ion-input type="password" formControlName="password" placeholder="Mínimo 6 caracteres"></ion-input>
+            </ion-item>
+            <ion-text color="danger" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.errors">
+              <p class="error-text">
+                <ion-icon name="alert-circle-outline"></ion-icon>
+                La contraseña debe tener al menos 6 caracteres
+              </p>
+            </ion-text>
+          </div>
 
-      <ion-button expand="block" type="submit" [disabled]="!loginForm.valid || loading" class="ion-margin-top">
-        <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
-        <span *ngIf="!loading">Iniciar Sesión</span>
-      </ion-button>
-    </form>
+          <ion-button 
+            expand="block" 
+            type="submit" 
+            [disabled]="!loginForm.valid || loading" 
+            class="gradient-button login-button">
+            <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+            <span *ngIf="!loading">
+              <ion-icon name="log-in-outline" slot="start"></ion-icon>
+              Iniciar Sesión
+            </span>
+          </ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
 
-    <div class="links-section ion-margin-top">
-      <ion-button fill="clear" (click)="goToRegister()">
+    <div class="links-section">
+      <ion-button fill="clear" (click)="goToRegister()" class="register-link">
+        <ion-icon name="person-add-outline" slot="start"></ion-icon>
         ¿No tienes cuenta? Regístrate aquí
       </ion-button>
       
-      <ion-button fill="outline" expand="block" (click)="goToCatalogo()" class="ion-margin-top">
+      <ion-button fill="outline" expand="block" (click)="goToCatalogo()" class="guest-button">
+        <ion-icon name="eye-outline" slot="start"></ion-icon>
         Ver catálogo como invitado
       </ion-button>
     </div>

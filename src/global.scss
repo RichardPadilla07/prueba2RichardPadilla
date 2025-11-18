@@ -35,3 +35,270 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+
+/** Animaciones globales **/
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+/** Clases de animación reutilizables **/
+.animate-fade-in {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.animate-slide-left {
+  animation: slideInLeft 0.6s ease forwards;
+}
+
+.animate-slide-right {
+  animation: slideInRight 0.6s ease forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.4s ease forwards;
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/** Estilos globales modernos **/
+* {
+  box-sizing: border-box;
+}
+
+ion-content {
+  --background: linear-gradient(180deg, #f9fafb 0%, #ffffff 100%);
+}
+
+ion-card {
+  border-radius: var(--border-radius-lg) !important;
+  box-shadow: var(--shadow-md) !important;
+  transition: all var(--transition-base);
+  overflow: hidden;
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl) !important;
+  }
+}
+
+ion-button {
+  --border-radius: var(--border-radius-full);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: all var(--transition-fast);
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+ion-header {
+  ion-toolbar {
+    --background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-secondary) 100%);
+    --color: white;
+    --padding-top: 10px;
+    --padding-bottom: 10px;
+    
+    ion-title {
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+  }
+}
+
+/** Efecto glassmorphism **/
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: var(--backdrop-blur);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: var(--shadow-lg);
+}
+
+/** Gradientes en botones **/
+.gradient-button {
+  --background: var(--gradient-primary);
+  --box-shadow: var(--shadow-colored);
+  
+  &:hover {
+    --background: linear-gradient(135deg, #7678f3 0%, #8556b5 100%);
+  }
+}
+
+/** Input moderno **/
+ion-item {
+  --border-radius: var(--border-radius-md);
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --inner-padding-end: 0;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast);
+  
+  &:hover {
+    box-shadow: var(--shadow-md);
+  }
+  
+  &.item-has-focus {
+    --highlight-background: var(--ion-color-primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  }
+}
+
+/** Badge moderno **/
+ion-badge {
+  padding: 6px 12px;
+  border-radius: var(--border-radius-full);
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+}
+
+/** Avatar con gradiente **/
+.avatar-gradient {
+  border: 3px solid transparent;
+  background: var(--gradient-primary);
+  background-clip: padding-box;
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    background: var(--gradient-primary);
+    border-radius: inherit;
+    z-index: -1;
+  }
+}
+
+/** Loading skeleton **/
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  border-radius: var(--border-radius-md);
+}
+
+/** Ripple effect mejorado **/
+ion-ripple-effect {
+  color: rgba(99, 102, 241, 0.3);
+}
+
+/** Tabs con estilo **/
+ion-tab-bar {
+  --background: white;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+  padding-top: 8px;
+  padding-bottom: 8px;
+  
+  ion-tab-button {
+    --color: var(--ion-color-medium);
+    --color-selected: var(--ion-color-primary);
+    
+    &.tab-selected {
+      transform: scale(1.1);
+      transition: transform var(--transition-fast);
+    }
+    
+    ion-icon {
+      transition: all var(--transition-fast);
+    }
+    
+    &:hover ion-icon {
+      transform: scale(1.2);
+    }
+  }
+}
+
+/** Scroll suave **/
+* {
+  scroll-behavior: smooth;
+}
+
+ion-content {
+  --offset-bottom: auto !important;
+  --overflow: hidden;
+  
+  &::part(scroll) {
+    padding-bottom: 0 !important;
+  }
+}
+
