@@ -4,11 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonButtons, IonBackButton, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonIcon, IonSpinner, IonChip, IonLabel, LoadingController, ToastController, AlertController } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { wifiOutline, callOutline, chatbubbleOutline, checkmarkCircleOutline } from 'ionicons/icons';
+import { wifiOutline, callOutline, chatbubbleOutline, checkmarkCircleOutline, speedometerOutline, logoInstagram, ribbonOutline } from 'ionicons/icons';
 import { PlanesService } from '../../services/planes.service';
 import { ContratacionesService } from '../../services/contrataciones.service';
 import { AuthService } from '../../services/auth.service';
-import { PlanMovil } from '../../models/database.types';
+import { PlanMovil, Contratacion } from '../../models/database.types';
 
 @Component({
   selector: 'app-detalle-plan',
@@ -22,6 +22,9 @@ export class DetallePlanPage implements OnInit {
   loading = true;
   isAuthenticated = false;
   isUsuarioRegistrado = false;
+  yaContratoEstePlan = false;
+  tieneContratacionActiva = false;
+  contratacionActiva?: Contratacion;
 
   constructor(
     private route: ActivatedRoute,
@@ -33,7 +36,7 @@ export class DetallePlanPage implements OnInit {
     private toastCtrl: ToastController,
     private alertCtrl: AlertController
   ) {
-    addIcons({ wifiOutline, callOutline, chatbubbleOutline, checkmarkCircleOutline });
+    addIcons({ wifiOutline, callOutline, chatbubbleOutline, checkmarkCircleOutline, speedometerOutline, logoInstagram, ribbonOutline });
   }
 
   async ngOnInit() {
@@ -43,6 +46,14 @@ export class DetallePlanPage implements OnInit {
     const planId = this.route.snapshot.paramMap.get('id');
     if (planId) {
       await this.loadPlan(parseInt(planId, 10));
+      
+      // Verificar si ya contrató este plan o tiene contratación activa
+      if (this.isUsuarioRegistrado) {
+        this.yaContratoEstePlan = await this.contratacionesService.yaContratoEstePlan(parseInt(planId, 10));
+        const resultado = await this.contratacionesService.tieneContratacionActiva();
+        this.tieneContratacionActiva = resultado.tiene;
+        this.contratacionActiva = resultado.contratacion;
+      }
     }
   }
 
@@ -128,5 +139,59 @@ export class DetallePlanPage implements OnInit {
 
   goToLogin() {
     this.router.navigate(['/pages/login']);
+  }
+
+  async cancelarContratacion() {
+    if (!this.contratacionActiva) return;
+
+    const alert = await this.alertCtrl.create({
+      header: 'Cancelar Contratación',
+      message: '¿Estás seguro de cancelar tu contratación actual?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel'
+        },
+        {
+          text: 'Sí, Cancelar',
+          role: 'destructive',
+          handler: async () => {
+            await this.procesarCancelacion();
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async procesarCancelacion() {
+    if (!this.contratacionActiva) return;
+
+    const loading = await this.loadingCtrl.create({
+      message: 'Cancelando contratación...'
+    });
+    await loading.present();
+
+    const result = await this.contratacionesService.cancelarContratacion(this.contratacionActiva.id);
+    await loading.dismiss();
+
+    if (result.success) {
+      const toast = await this.toastCtrl.create({
+        message: 'Contratación cancelada exitosamente',
+        duration: 2000,
+        color: 'success'
+      });
+      await toast.present();
+      
+      // Recargar página para actualizar estado
+      window.location.reload();
+    } else {
+      const toast = await this.toastCtrl.create({
+        message: result.error || 'Error al cancelar',
+        duration: 3000,
+        color: 'danger'
+      });
+      await toast.present();
+    }
   }
 }

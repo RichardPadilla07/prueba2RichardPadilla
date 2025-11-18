@@ -39,6 +39,16 @@
           <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
           Chat con Asesor
         </ion-button>
+
+        <ion-button 
+          expand="block" 
+          color="danger"
+          fill="outline"
+          (click)="eliminarContrato(contratacion)"
+          *ngIf="contratacion.estado !== 'cancelado'">
+          <ion-icon name="trash-outline" slot="start"></ion-icon>
+          Eliminar Contrato
+        </ion-button>
       </ion-card-content>
     </ion-card>
   </div>

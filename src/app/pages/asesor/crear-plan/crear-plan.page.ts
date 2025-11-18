@@ -31,14 +31,14 @@ export class CrearPlanPage implements OnInit {
   ) {
     this.planForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(3)]],
-      precio: [0, [Validators.required, Validators.min(0)]],
-      segmento: [''],
-      publico_objetivo: [''],
-      datos: [''],
-      minutos: [''],
-      sms: [''],
-      velocidad: [''],
-      redes_sociales: [''],
+      precio: [0, [Validators.required, Validators.min(0.01)]],
+      segmento: ['', Validators.required],
+      publico_objetivo: ['', Validators.required],
+      datos: ['', Validators.required],
+      minutos: ['', Validators.required],
+      sms: ['', Validators.required],
+      velocidad: ['', Validators.required],
+      redes_sociales: ['', Validators.required],
       activo: [true]
     });
   }
@@ -98,6 +98,17 @@ export class CrearPlanPage implements OnInit {
       return;
     }
 
+    // Validar que se haya seleccionado una imagen (solo para crear nuevo)
+    if (!this.isEditMode && !this.selectedFile && !this.previewUrl) {
+      const toast = await this.toastCtrl.create({
+        message: 'Por favor selecciona una imagen para el plan',
+        duration: 2000,
+        color: 'warning'
+      });
+      await toast.present();
+      return;
+    }
+
     const loading = await this.loadingCtrl.create({
       message: this.isEditMode ? 'Actualizando plan...' : 'Creando plan...'
     });
@@ -112,6 +123,15 @@ export class CrearPlanPage implements OnInit {
         const uploadResult = await this.planesService.uploadImage(this.selectedFile, tempId);
         if (uploadResult.success && uploadResult.url) {
           imageUrl = uploadResult.url;
+        } else {
+          await loading.dismiss();
+          const toast = await this.toastCtrl.create({
+            message: 'Error al subir la imagen',
+            duration: 3000,
+            color: 'danger'
+          });
+          await toast.present();
+          return;
         }
       }
 
@@ -130,12 +150,20 @@ export class CrearPlanPage implements OnInit {
       await loading.dismiss();
 
       if (result.success) {
+        // Esperar un momento para que la base de datos se actualice
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        // Forzar recarga de todos los planes
+        await this.planesService.getAllPlanes(true);
+        
         const toast = await this.toastCtrl.create({
           message: this.isEditMode ? 'Plan actualizado correctamente' : 'Plan creado correctamente',
           duration: 2000,
           color: 'success'
         });
         await toast.present();
+        
+        // Navegar al dashboard
         this.router.navigate(['/pages/asesor/dashboard']);
       } else {
         const toast = await this.toastCtrl.create({

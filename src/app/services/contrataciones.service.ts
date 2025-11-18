@@ -171,6 +171,57 @@ export class ContratacionesService {
   }
 
   /**
+   * Cancela una contratación (cambia estado a cancelado)
+   */
+  async cancelarContratacion(id: number): Promise<{ success: boolean; error?: string }> {
+    return this.updateEstado(id, 'cancelado');
+  }
+
+  /**
+   * Verifica si el usuario tiene una contratación activa (pendiente o aceptado)
+   */
+  async tieneContratacionActiva(): Promise<{ tiene: boolean; contratacion?: Contratacion }> {
+    const currentProfile = this.authService.getCurrentProfile();
+    if (!currentProfile) return { tiene: false };
+
+    const { data, error } = await this.supabase.client
+      .from('contrataciones')
+      .select(`
+        *,
+        planes_moviles(*)
+      `)
+      .eq('usuario_id', currentProfile.user_id)
+      .in('estado', ['pendiente', 'aceptado'])
+      .order('fecha', { ascending: false })
+      .limit(1)
+      .single();
+
+    if (data && !error) {
+      return { tiene: true, contratacion: data as any };
+    }
+    
+    return { tiene: false };
+  }
+
+  /**
+   * Verifica si el usuario ya contrató un plan específico (pendiente o aceptado)
+   */
+  async yaContratoEstePlan(planId: number): Promise<boolean> {
+    const currentProfile = this.authService.getCurrentProfile();
+    if (!currentProfile) return false;
+
+    const { data, error } = await this.supabase.client
+      .from('contrataciones')
+      .select('id')
+      .eq('usuario_id', currentProfile.user_id)
+      .eq('plan_id', planId)
+      .in('estado', ['pendiente', 'aceptado'])
+      .limit(1);
+
+    return (data && data.length > 0) || false;
+  }
+
+  /**
    * Actualiza una contratación
    */
   async updateContratacion(id: string, updates: ContratacionUpdate): Promise<{ success: boolean; error?: string }> {

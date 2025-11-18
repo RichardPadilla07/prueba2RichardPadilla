@@ -20,7 +20,7 @@ export class PlanesService {
   /**
    * Carga todos los planes activos
    */
-  private async loadPlanes() {
+  async loadPlanes() {
     const { data, error } = await this.supabase.client
       .from('planes_moviles')
       .select('*')

@@ -25,34 +25,64 @@
         </ion-card-header>
         <ion-card-content>
           <div class="caracteristicas">
-            <div class="caracteristica-item">
+            <!-- Segmento (más importante) -->
+            <div class="caracteristica-item" *ngIf="plan.segmento">
+              <ion-icon name="ribbon-outline" color="primary"></ion-icon>
+              <div>
+                <h3>Segmento</h3>
+                <p>{{ plan.segmento }}</p>
+              </div>
+            </div>
+
+            <!-- Datos Móviles -->
+            <div class="caracteristica-item" *ngIf="plan.datos">
               <ion-icon name="wifi-outline" color="primary"></ion-icon>
               <div>
                 <h3>Datos Móviles</h3>
-                <p>{{ plan.datos }} GB de internet</p>
+                <p>{{ plan.datos }}</p>
               </div>
             </div>
             
-            <div class="caracteristica-item">
+            <!-- Velocidad -->
+            <div class="caracteristica-item" *ngIf="plan.velocidad">
+              <ion-icon name="speedometer-outline" color="primary"></ion-icon>
+              <div>
+                <h3>Velocidad</h3>
+                <p>{{ plan.velocidad }}</p>
+              </div>
+            </div>
+
+            <!-- Minutos de Llamadas -->
+            <div class="caracteristica-item" *ngIf="plan.minutos">
               <ion-icon name="call-outline" color="primary"></ion-icon>
               <div>
                 <h3>Minutos de Llamadas</h3>
-                <p>{{ plan.minutos }} minutos</p>
+                <p>{{ plan.minutos }}</p>
               </div>
             </div>
             
-            <div class="caracteristica-item">
+            <!-- Mensajes SMS -->
+            <div class="caracteristica-item" *ngIf="plan.sms">
               <ion-icon name="chatbubble-outline" color="primary"></ion-icon>
               <div>
                 <h3>Mensajes SMS</h3>
-                <p>{{ plan.sms }} mensajes</p>
+                <p>{{ plan.sms }}</p>
+              </div>
+            </div>
+
+            <!-- Redes Sociales -->
+            <div class="caracteristica-item" *ngIf="plan.redes_sociales">
+              <ion-icon name="logo-instagram" color="primary"></ion-icon>
+              <div>
+                <h3>Redes Sociales</h3>
+                <p>{{ plan.redes_sociales }}</p>
               </div>
             </div>
           </div>
         </ion-card-content>
       </ion-card>
 
-      <ion-card>
+      <ion-card *ngIf="plan.publico_objetivo">
         <ion-card-header>
           <ion-card-title>Descripción</ion-card-title>
         </ion-card-header>
@@ -62,15 +92,45 @@
       </ion-card>
 
       <div class="action-buttons ion-padding">
+        <!-- Ya contrató este plan -->
+        <ion-button 
+          expand="block" 
+          size="large" 
+          color="success"
+          disabled
+          *ngIf="isUsuarioRegistrado && yaContratoEstePlan">
+          <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+          Contratado
+        </ion-button>
+
+        <!-- Botón contratar (solo si no tiene contratación activa y no contrató este plan) -->
         <ion-button 
           expand="block" 
           size="large" 
           (click)="contratar()"
-          *ngIf="isUsuarioRegistrado">
+          *ngIf="isUsuarioRegistrado && !yaContratoEstePlan && !tieneContratacionActiva">
           <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
           Contratar Ahora
         </ion-button>
 
+        <!-- Tiene otra contratación activa -->
+        <ion-chip color="warning" *ngIf="isUsuarioRegistrado && !yaContratoEstePlan && tieneContratacionActiva">
+          <ion-label>Debes cancelar tu contratación actual para contratar otro plan</ion-label>
+        </ion-chip>
+
+        <!-- Botón cancelar contratación (si ya contrató este plan o tiene contratación activa) -->
+        <ion-button 
+          expand="block" 
+          size="large"
+          color="danger"
+          fill="outline"
+          (click)="cancelarContratacion()"
+          *ngIf="isUsuarioRegistrado && (yaContratoEstePlan || tieneContratacionActiva)">
+          <ion-icon name="close-circle-outline" slot="start"></ion-icon>
+          Cancelar Contratación
+        </ion-button>
+
+        <!-- No autenticado -->
         <ion-button 
           expand="block" 
           size="large" 
@@ -79,6 +139,7 @@
           Inicia sesión para contratar
         </ion-button>
 
+        <!-- Asesor no puede contratar -->
         <ion-chip color="warning" *ngIf="isAuthenticated && !isUsuarioRegistrado">
           <ion-label>Este plan solo puede ser contratado por usuarios registrados</ion-label>
         </ion-chip>

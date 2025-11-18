@@ -2,7 +2,7 @@
 
 export type UserRole = 'usuario_registrado' | 'asesor_comercial';
 
-export type ContratoEstado = 'pendiente' | 'aceptado' | 'rechazado';
+export type ContratoEstado = 'pendiente' | 'aceptado' | 'rechazado' | 'cancelado';
 
 export interface Perfil {
   id: string;
