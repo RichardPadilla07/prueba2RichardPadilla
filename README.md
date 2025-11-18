@@ -1,4 +1,6 @@
-# Sistema de Gestión de Planes Móviles
+# Sistema de Gestión de Planes Móviles - PRUEBA 2
+
+- Nombre: Richard Padilla
 
 ## Descripción
 
@@ -110,7 +112,3 @@ Cada usuario tiene acceso a su perfil personal donde puede consultar y actualiza
 ## Tecnologías
 
 La aplicación está desarrollada con Ionic y Angular, lo que permite una experiencia nativa en dispositivos móviles. El backend utiliza Supabase, que proporciona una base de datos PostgreSQL, almacenamiento en la nube para las imágenes, y actualizaciones en tiempo real para el chat y las notificaciones. Todo el sistema cuenta con autenticación segura y políticas de acceso que garantizan que cada usuario solo pueda ver y modificar la información que le corresponde.
-
-## Autor
-
-Richard Padilla
