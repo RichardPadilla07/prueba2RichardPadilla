@@ -7,6 +7,11 @@ ion-header {
   }
 }
 
+ion-content {
+  --background: white;
+  --color: #1a1a1a;
+}
+
 .chat-title {
   font-size: 1rem;
   font-weight: bold;
@@ -29,6 +34,7 @@ ion-header {
   justify-content: center;
   align-items: center;
   height: 100%;
+  background: white;
   
   ion-spinner {
     width: 50px;
@@ -47,8 +53,8 @@ ion-header {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
-  min-height: 100%;
+  background: white;
+  min-height: 100vh;
 }
 
 .contrato-info {

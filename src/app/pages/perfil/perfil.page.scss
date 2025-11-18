@@ -1,6 +1,15 @@
 ion-content {
-  --background: white;
+  --background: white !important;
   --color: #1a1a1a;
+  background: white !important;
+}
+
+ion-content::part(background) {
+  background: white !important;
+}
+
+ion-content::part(scroll) {
+  background: white !important;
 }
 
 ion-header {
