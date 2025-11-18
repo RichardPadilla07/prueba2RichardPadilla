@@ -136,6 +136,8 @@ ion-card {
     object-fit: contain;
     object-position: center;
     background: var(--ion-color-light);
+    display: block;
+    margin: 0 auto;
   }
 }
 

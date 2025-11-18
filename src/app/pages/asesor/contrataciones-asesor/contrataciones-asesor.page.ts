@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonButton, IonSpinner, IonChip, IonLabel, IonRefresher, IonRefresherContent, IonIcon, IonSegment, IonSegmentButton, IonButtons, IonBackButton, LoadingController, ToastController, AlertController } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { chatbubbleOutline, timeOutline, checkmarkCircleOutline, closeCircleOutline, personOutline, callOutline, banOutline, documentTextOutline } from 'ionicons/icons';
+import { chatbubbleOutline, timeOutline, checkmarkCircleOutline, closeCircleOutline, personOutline, callOutline, banOutline, documentTextOutline, cashOutline, wifiOutline, ribbonOutline, calendarOutline } from 'ionicons/icons';
 import { ContratacionesService } from '../../../services/contrataciones.service';
 import { Contratacion, ContratoEstado } from '../../../models/database.types';
 import { Subscription } from 'rxjs';
@@ -30,7 +30,7 @@ export class ContratacionesAsesorPage implements OnInit, OnDestroy {
     private toastCtrl: ToastController,
     private alertCtrl: AlertController
   ) {
-    addIcons({ chatbubbleOutline, timeOutline, checkmarkCircleOutline, closeCircleOutline, personOutline, callOutline, banOutline, documentTextOutline });
+    addIcons({ chatbubbleOutline, timeOutline, checkmarkCircleOutline, closeCircleOutline, personOutline, callOutline, banOutline, documentTextOutline, cashOutline, wifiOutline, ribbonOutline, calendarOutline });
   }
 
   ngOnInit() {

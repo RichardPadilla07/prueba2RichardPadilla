@@ -55,9 +55,50 @@
       </ion-card-header>
 
       <ion-card-content>
-        <div class="plan-info">
-          <p><strong>Precio:</strong> ${{ contratacion.planes_moviles?.precio | number:'1.0-0' }}/mes</p>
-          <p><strong>Datos:</strong> {{ contratacion.planes_moviles?.datos }} GB</p>
+        <div class="plan-details">
+          <div class="detail-row">
+            <div class="detail-item">
+              <ion-icon name="cash-outline" color="primary"></ion-icon>
+              <div class="detail-content">
+                <span class="detail-label">Precio</span>
+                <span class="detail-value">${{ contratacion.planes_moviles?.precio | number:'1.0-0' }}/mes</span>
+              </div>
+            </div>
+            <div class="detail-item">
+              <ion-icon name="wifi-outline" color="primary"></ion-icon>
+              <div class="detail-content">
+                <span class="detail-label">Datos</span>
+                <span class="detail-value">{{ contratacion.planes_moviles?.datos }}</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="detail-row">
+            <div class="detail-item">
+              <ion-icon name="call-outline" color="primary"></ion-icon>
+              <div class="detail-content">
+                <span class="detail-label">Minutos</span>
+                <span class="detail-value">{{ contratacion.planes_moviles?.minutos }}</span>
+              </div>
+            </div>
+            <div class="detail-item" *ngIf="contratacion.planes_moviles?.sms">
+              <ion-icon name="chatbubble-outline" color="primary"></ion-icon>
+              <div class="detail-content">
+                <span class="detail-label">SMS</span>
+                <span class="detail-value">{{ contratacion.planes_moviles?.sms }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="detail-row" *ngIf="contratacion.planes_moviles?.segmento || contratacion.planes_moviles?.publico_objetivo">
+            <div class="detail-item full-width">
+              <ion-icon name="ribbon-outline" color="primary"></ion-icon>
+              <div class="detail-content">
+                <span class="detail-label">Segmento</span>
+                <span class="detail-value">{{ contratacion.planes_moviles?.segmento || contratacion.planes_moviles?.publico_objetivo }}</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="action-buttons">

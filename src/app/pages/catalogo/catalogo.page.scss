@@ -242,6 +242,8 @@ ion-card {
   img {
     height: 200px;
     object-fit: cover;
+    display: block;
+    margin: 0 auto;
   }
   
   ion-card-title {
