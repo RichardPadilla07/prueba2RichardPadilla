@@ -1,7 +1,6 @@
 // Tipos de la base de datos Supabase
 
 export type UserRole = 'usuario_registrado' | 'asesor_comercial';
-
 export type ContratoEstado = 'pendiente' | 'aceptado' | 'rechazado' | 'cancelado';
 
 export interface Perfil {
