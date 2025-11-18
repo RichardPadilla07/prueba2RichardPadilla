@@ -8,6 +8,14 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
+  <div class="page-header">
+    <div class="logo-circle">
+      <ion-icon name="add-circle-outline"></ion-icon>
+    </div>
+    <h1 class="page-title">{{ isEditMode ? 'Editar Plan' : 'Crear Plan' }}</h1>
+    <p class="page-subtitle">{{ isEditMode ? 'Modifica los detalles del plan' : 'Define un nuevo plan móvil' }}</p>
+  </div>
+
   <div *ngIf="loading" class="loading-container">
     <ion-spinner></ion-spinner>
   </div>

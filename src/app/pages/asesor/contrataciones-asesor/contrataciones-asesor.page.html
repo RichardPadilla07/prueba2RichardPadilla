@@ -5,28 +5,32 @@
     </ion-buttons>
     <ion-title>Contrataciones</ion-title>
   </ion-toolbar>
-  <ion-toolbar>
-    <ion-segment [(ngModel)]="filtroEstado" (ionChange)="onFiltroChange($event)">
-      <ion-segment-button value="todas">
-        <ion-label>Todas</ion-label>
+  <ion-toolbar class="segment-toolbar">
+    <ion-segment [(ngModel)]="filtroEstado" (ionChange)="onFiltroChange($event)" class="custom-segment">
+      <ion-segment-button value="todas" class="segment-button">
+        <ion-label class="segment-label">PENDIENTES</ion-label>
       </ion-segment-button>
-      <ion-segment-button value="pendiente">
-        <ion-label>Pendientes</ion-label>
+      <ion-segment-button value="aceptado" class="segment-button">
+        <ion-label class="segment-label">ACEPTADAS</ion-label>
       </ion-segment-button>
-      <ion-segment-button value="aceptado">
-        <ion-label>Aceptadas</ion-label>
+      <ion-segment-button value="rechazado" class="segment-button">
+        <ion-label class="segment-label">RECHAZADAS</ion-label>
       </ion-segment-button>
-      <ion-segment-button value="rechazado">
-        <ion-label>Rechazadas</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="cancelado">
-        <ion-label>Canceladas</ion-label>
+      <ion-segment-button value="cancelado" class="segment-button">
+        <ion-label class="segment-label">CANCELADAS</ion-label>
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <div class="page-header ion-padding">
+    <div class="logo-circle">
+      <ion-icon name="document-text-outline"></ion-icon>
+    </div>
+    <h1 class="page-title">Contrataciones</h1>
+    <p class="page-subtitle">Gestiona las solicitudes de planes</p>
+  </div>
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>

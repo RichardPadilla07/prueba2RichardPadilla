@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonButton, IonButtons, IonIcon, IonSpinner, IonFab, IonFabButton, IonGrid, IonRow, IonCol, IonChip, IonLabel, AlertController, LoadingController, ToastController } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { addOutline, createOutline, trashOutline, eyeOutline, eyeOffOutline, logOutOutline } from 'ionicons/icons';
+import { addOutline, createOutline, trashOutline, eyeOutline, eyeOffOutline, logOutOutline, businessOutline } from 'ionicons/icons';
 import { PlanesService } from '../../../services/planes.service';
 import { AuthService } from '../../../services/auth.service';
 import { PlanMovil } from '../../../models/database.types';
@@ -30,7 +30,7 @@ export class DashboardPage implements OnInit, OnDestroy {
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController
   ) {
-    addIcons({ addOutline, createOutline, trashOutline, eyeOutline, eyeOffOutline, logOutOutline });
+    addIcons({ addOutline, createOutline, trashOutline, eyeOutline, eyeOffOutline, logOutOutline, businessOutline });
   }
 
   ngOnInit() {

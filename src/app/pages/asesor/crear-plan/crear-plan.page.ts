@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonButtons, IonBackButton, IonCard, IonCardContent, IonItem, IonLabel, IonInput, IonTextarea, IonToggle, IonSpinner, IonIcon, LoadingController, ToastController } from '@ionic/angular/standalone';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { addIcons } from 'ionicons';
-import { imageOutline } from 'ionicons/icons';
+import { imageOutline, addCircleOutline } from 'ionicons/icons';
 import { PlanesService } from '../../../services/planes.service';
 import { PlanMovil } from '../../../models/database.types';
 
@@ -32,7 +32,7 @@ export class CrearPlanPage implements OnInit {
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController
   ) {
-    addIcons({ imageOutline });
+    addIcons({ imageOutline, addCircleOutline });
     this.planForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(3)]],
       precio: [0, [Validators.required, Validators.min(0.01)]],

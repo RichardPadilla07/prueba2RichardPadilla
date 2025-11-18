@@ -23,11 +23,88 @@ ion-card {
   }
 }
 
+.page-header {
+  text-align: center;
+  background: white;
+  padding: 2rem 1rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  
+  .logo-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-secondary) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    animation: float 6s ease-in-out infinite;
+    
+    ion-icon {
+      font-size: 2rem;
+      color: white;
+    }
+  }
+  
+  .page-title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 0;
+    background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .page-subtitle {
+    font-size: 1rem;
+    color: #4a5568;
+    margin: 0 0 1rem 0;
+    font-weight: 500;
+  }
+}
+
+.segment-toolbar {
+  --background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-secondary) 100%);
+}
+
+.custom-segment {
+  --background: transparent;
+  
+  .segment-button {
+    --background: transparent;
+    --background-checked: rgba(255, 255, 255, 0.3);
+    --color: rgba(255, 255, 255, 0.8);
+    --color-checked: white;
+    --border-radius: 8px;
+    margin: 4px 2px;
+    min-height: 40px;
+    
+    .segment-label {
+      font-weight: 600;
+      font-size: 0.75rem;
+      letter-spacing: 0.5px;
+    }
+    
+    &.segment-button-checked {
+      background: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+  }
+}
+
 .loading-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 60vh;
+  background: white !important;
   background: white !important;
 }
 
@@ -114,5 +191,14 @@ ion-card {
 
   h2 {
     color: var(--ion-color-medium);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
   }
 }
