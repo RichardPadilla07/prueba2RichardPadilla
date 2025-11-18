@@ -75,39 +75,158 @@ ion-card {
   height: 60vh;
 }
 
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.plan-info {
-  margin-bottom: 1rem;
-  padding: 1rem;
-  background: #f8f9fa;
-  border-radius: 8px;
-
-  p {
-    margin: 0.5rem 0;
-    color: #1a1a1a;
+.contratacion-card {
+  margin-bottom: 1.5rem;
+  border-radius: 16px !important;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
+  
+  ion-card-header {
+    padding: 1rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    
+    .header-info {
+      ion-card-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-bottom: 0.5rem;
+        line-height: 1.3;
+      }
+      
+      ion-card-subtitle {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.85rem;
+        color: #6b7280;
+        margin-bottom: 0.5rem;
+        
+        ion-icon {
+          font-size: 1rem;
+        }
+      }
+      
+      .estado-chip {
+        height: 28px;
+        font-weight: 600;
+        
+        ion-label {
+          font-size: 0.8rem;
+        }
+      }
+    }
+  }
+  
+  ion-card-content {
+    padding: 0;
+    
+    .content-wrapper {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem;
+      align-items: flex-start;
+      
+      .plan-image-container {
+        flex-shrink: 0;
+        width: 120px;
+        height: 120px;
+        border-radius: 12px;
+        overflow: hidden;
+        background: white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        
+        .plan-thumbnail {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          padding: 8px;
+        }
+      }
+      
+      .plan-details {
+        flex: 1;
+        min-width: 0;
+      }
+    }
+    
+    .action-buttons {
+      padding: 0 1rem 1rem 1rem;
+    }
   }
 }
 
-.notas {
-  margin-bottom: 1rem;
-  padding: 1rem;
-  background: #f8f9fa;
-  border-radius: 8px;
-
-  p {
-    margin: 0.5rem 0;
-    color: #1a1a1a;
-
-    &:first-child {
-      margin-bottom: 0.5rem;
+.plan-details {
+  
+  .detail-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    
+    .detail-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      padding: 0.5rem;
+      background: #f8f9fa;
+      border-radius: 8px;
+      border-left: 3px solid var(--ion-color-primary);
+      
+      &.full-width {
+        grid-column: 1 / -1;
+      }
+      
+      ion-icon {
+        font-size: 1.2rem;
+        margin-top: 2px;
+        flex-shrink: 0;
+      }
+      
+      .detail-content {
+        display: flex;
+        flex-direction: column;
+        gap: 0.1rem;
+        flex: 1;
+        min-width: 0;
+        
+        .detail-label {
+          font-size: 0.65rem;
+          color: #6b7280;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.3px;
+        }
+        
+        .detail-value {
+          font-size: 0.85rem;
+          color: #1a1a1a;
+          font-weight: 700;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
     }
+  }
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  
+  .chat-button {
+    --background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-secondary) 100%);
+    --border-radius: 12px;
+    font-weight: 600;
+    height: 48px;
+  }
+  
+  .delete-button {
+    --border-radius: 12px;
+    height: 44px;
+    font-weight: 600;
   }
 }
 

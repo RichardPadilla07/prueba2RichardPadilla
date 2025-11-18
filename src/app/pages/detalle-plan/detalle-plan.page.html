@@ -13,11 +13,21 @@
   </div>
 
   <div *ngIf="!loading && plan" class="plan-detalle">
-    <img [src]="plan.imagen_url" *ngIf="plan.imagen_url" alt="{{plan.nombre}}" class="plan-imagen" />
+    <div class="page-header">
+      <div class="logo-circle">
+        <ion-icon name="information-circle-outline"></ion-icon>
+      </div>
+      <h1 class="page-title">Detalle del Plan</h1>
+      <p class="page-subtitle">{{ plan.nombre }}</p>
+    </div>
+
+    <div class="image-container" *ngIf="plan.imagen_url">
+      <img [src]="plan.imagen_url" alt="{{plan.nombre}}" class="plan-imagen" />
+    </div>
     
     <div class="plan-info ion-padding">
-      <h1>{{ plan.nombre }}</h1>
-      <h2 class="precio">${{ plan.precio | number:'1.0-0' }}/mes</h2>
+      <h2 class="plan-nombre">{{ plan.nombre }}</h2>
+      <h3 class="precio">${{ plan.precio | number:'1.0-0' }}/mes</h3>
       
       <ion-card>
         <ion-card-header>

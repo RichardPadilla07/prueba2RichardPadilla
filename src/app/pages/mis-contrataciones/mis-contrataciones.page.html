@@ -22,41 +22,91 @@
   </div>
 
   <div *ngIf="!loading" class="ion-padding">
-    <ion-card *ngFor="let contratacion of contrataciones">
+    <ion-card *ngFor="let contratacion of contrataciones" class="contratacion-card">
       <ion-card-header>
-        <div class="header-content">
+        <div class="header-info">
           <ion-card-title>{{ contratacion.planes_moviles?.nombre }}</ion-card-title>
-          <ion-chip [color]="getEstadoColor(contratacion.estado)">
+          <ion-card-subtitle>
+            <ion-icon name="calendar-outline"></ion-icon>
+            {{ contratacion.fecha | date:'dd/MM/yyyy HH:mm' }}
+          </ion-card-subtitle>
+          <ion-chip [color]="getEstadoColor(contratacion.estado)" class="estado-chip">
             <ion-icon [name]="getEstadoIcon(contratacion.estado)"></ion-icon>
             <ion-label>{{ contratacion.estado | titlecase }}</ion-label>
           </ion-chip>
         </div>
-        <ion-card-subtitle>
-          {{ contratacion.fecha | date:'dd/MM/yyyy HH:mm' }}
-        </ion-card-subtitle>
       </ion-card-header>
 
       <ion-card-content>
-        <div class="plan-info">
-          <p><strong>Precio:</strong> ${{ contratacion.planes_moviles?.precio | number:'1.0-0' }}/mes</p>
-          <p><strong>Datos:</strong> {{ contratacion.planes_moviles?.datos }} GB</p>
-          <p><strong>Minutos:</strong> {{ contratacion.planes_moviles?.minutos }}</p>
+        <div class="content-wrapper">
+          <div class="plan-image-container" *ngIf="contratacion.planes_moviles?.imagen_url">
+            <img [src]="contratacion.planes_moviles?.imagen_url" [alt]="contratacion.planes_moviles?.nombre" class="plan-thumbnail" />
+          </div>
+          
+          <div class="plan-details">
+            <div class="detail-row">
+              <div class="detail-item">
+                <ion-icon name="cash-outline" color="primary"></ion-icon>
+                <div class="detail-content">
+                  <span class="detail-label">Precio</span>
+                  <span class="detail-value">${{ contratacion.planes_moviles?.precio | number:'1.0-0' }}/mes</span>
+                </div>
+              </div>
+              <div class="detail-item">
+                <ion-icon name="wifi-outline" color="primary"></ion-icon>
+                <div class="detail-content">
+                  <span class="detail-label">Datos</span>
+                  <span class="detail-value">{{ contratacion.planes_moviles?.datos }}</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="detail-row">
+              <div class="detail-item">
+                <ion-icon name="call-outline" color="primary"></ion-icon>
+                <div class="detail-content">
+                  <span class="detail-label">Minutos</span>
+                  <span class="detail-value">{{ contratacion.planes_moviles?.minutos }}</span>
+                </div>
+              </div>
+              <div class="detail-item" *ngIf="contratacion.planes_moviles?.sms">
+                <ion-icon name="chatbubble-outline" color="primary"></ion-icon>
+                <div class="detail-content">
+                  <span class="detail-label">SMS</span>
+                  <span class="detail-value">{{ contratacion.planes_moviles?.sms }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="detail-row" *ngIf="contratacion.planes_moviles?.segmento">
+              <div class="detail-item full-width">
+                <ion-icon name="ribbon-outline" color="primary"></ion-icon>
+                <div class="detail-content">
+                  <span class="detail-label">Segmento</span>
+                  <span class="detail-value">{{ contratacion.planes_moviles?.segmento }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <ion-button expand="block" (click)="abrirChat(contratacion.id)">
-          <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
-          Chat con Asesor
-        </ion-button>
+        <div class="action-buttons">
+          <ion-button expand="block" (click)="abrirChat(contratacion.id)" class="chat-button">
+            <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
+            Chat con Asesor
+          </ion-button>
 
-        <ion-button 
-          expand="block" 
-          color="danger"
-          fill="outline"
-          (click)="eliminarContrato(contratacion)"
-          *ngIf="contratacion.estado !== 'cancelado'">
-          <ion-icon name="trash-outline" slot="start"></ion-icon>
-          Eliminar Contrato
-        </ion-button>
+          <ion-button 
+            expand="block" 
+            color="danger"
+            fill="outline"
+            (click)="eliminarContrato(contratacion)"
+            *ngIf="contratacion.estado !== 'cancelado'"
+            class="delete-button">
+            <ion-icon name="trash-outline" slot="start"></ion-icon>
+            Eliminar Contrato
+          </ion-button>
+        </div>
       </ion-card-content>
     </ion-card>
   </div>

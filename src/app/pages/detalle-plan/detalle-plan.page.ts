@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonButtons, IonBackButton, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonIcon, IonSpinner, IonChip, IonLabel, LoadingController, ToastController, AlertController } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { wifiOutline, callOutline, chatbubbleOutline, checkmarkCircleOutline, speedometerOutline, logoInstagram, ribbonOutline } from 'ionicons/icons';
+import { wifiOutline, callOutline, chatbubbleOutline, checkmarkCircleOutline, speedometerOutline, logoInstagram, ribbonOutline, informationCircleOutline } from 'ionicons/icons';
 import { PlanesService } from '../../services/planes.service';
 import { ContratacionesService } from '../../services/contrataciones.service';
 import { AuthService } from '../../services/auth.service';
@@ -36,7 +36,7 @@ export class DetallePlanPage implements OnInit {
     private toastCtrl: ToastController,
     private alertCtrl: AlertController
   ) {
-    addIcons({ wifiOutline, callOutline, chatbubbleOutline, checkmarkCircleOutline, speedometerOutline, logoInstagram, ribbonOutline });
+    addIcons({ wifiOutline, callOutline, chatbubbleOutline, checkmarkCircleOutline, speedometerOutline, logoInstagram, ribbonOutline, informationCircleOutline });
   }
 
   async ngOnInit() {

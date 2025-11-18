@@ -20,23 +20,83 @@ ion-header {
   color: #1a1a1a;
 }
 
+.page-header {
+  text-align: center;
+  background: white;
+  padding: 2rem 1rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  
+  .logo-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-secondary) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    animation: float 6s ease-in-out infinite;
+    
+    ion-icon {
+      font-size: 2rem;
+      color: white;
+    }
+  }
+  
+  .page-title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 0;
+    background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .page-subtitle {
+    font-size: 1.1rem;
+    color: #4a5568;
+    margin: 0;
+    font-weight: 600;
+  }
+}
+
 .plan-detalle {
   background: white;
   
-  .plan-imagen {
+  .image-container {
     width: 100%;
-    height: 300px;
-    object-fit: cover;
+    padding: 1rem;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    .plan-imagen {
+      max-width: 100%;
+      max-height: 400px;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
   }
 
   .plan-info {
     padding: 1rem;
     background: white;
     
-    h1 {
-      font-size: 2rem;
+    .plan-nombre {
+      font-size: 1.8rem;
       margin-bottom: 0.5rem;
       color: #1a1a1a;
+      font-weight: 700;
     }
 
     .precio {
@@ -122,5 +182,14 @@ ion-header {
   h2 {
     color: var(--ion-color-medium);
     margin-bottom: 2rem;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
   }
 }
