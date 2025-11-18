@@ -177,12 +177,16 @@ ion-header {
   ion-toolbar {
     --background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-secondary) 100%);
     --color: white;
-    --padding-top: 10px;
-    --padding-bottom: 10px;
+    --padding-top: 12px;
+    --padding-bottom: 12px;
+    box-shadow: 0 4px 12px rgba(255, 0, 110, 0.3);
     
     ion-title {
-      font-weight: 700;
+      font-weight: 800;
       letter-spacing: 0.5px;
+      font-size: 1.4rem;
+      text-transform: capitalize;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     }
   }
 }
@@ -306,10 +310,8 @@ ion-tab-bar {
 
 ion-content {
   --offset-bottom: auto !important;
-  --overflow: hidden;
   
   &::part(scroll) {
-    padding-bottom: 0 !important;
+    overflow-y: auto !important;
   }
 }
-

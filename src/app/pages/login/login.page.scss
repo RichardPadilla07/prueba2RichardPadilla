@@ -1,12 +1,85 @@
+ion-content {
+  --background: white;
+  --color: #1a1a1a;
+}
+
+.login-content {
+  --background: white;
+}
+
+.background-shapes {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  z-index: 0;
+  background: white;
+  
+  .shape {
+    position: absolute;
+    opacity: 0.05;
+    
+    &.shape-1 {
+      top: -50px;
+      right: -50px;
+      width: 200px;
+      height: 200px;
+      background: var(--ion-color-primary);
+      border-radius: 50%;
+    }
+    
+    &.shape-2 {
+      bottom: -100px;
+      left: -100px;
+      width: 300px;
+      height: 300px;
+      background: var(--ion-color-secondary);
+      border-radius: 50%;
+    }
+    
+    &.shape-3 {
+      top: 50%;
+      right: -150px;
+      width: 250px;
+      height: 250px;
+      background: var(--ion-color-tertiary);
+      border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    }
+  }
+}
+
 .login-container {
   max-width: 500px;
   margin: 0 auto;
   padding: 2rem 1rem;
+  background: white;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
 }
 
 .logo-section {
   text-align: center;
   margin-bottom: 2rem;
+  
+  .logo-circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-secondary) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    box-shadow: 0 8px 24px rgba(255, 0, 110, 0.3);
+    
+    .logo-icon {
+      font-size: 50px;
+      color: white;
+    }
+  }
 
   h1 {
     font-size: 2.5rem;
@@ -14,12 +87,68 @@
     margin: 0;
     color: #1a1a1a;
   }
+  
+  .gradient-text {
+    background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .subtitle {
+    color: #4a5568;
+    margin-top: 0.5rem;
+    font-weight: 500;
+  }
 
   p {
     color: #4a5568;
     margin-top: 0.5rem;
     font-weight: 500;
   }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.login-card {
+  margin-top: 2rem;
+  padding: 2rem;
+  background: white;
 }
 
 .error-text {
@@ -59,5 +188,47 @@ ion-item {
     --color: #1a1a1a !important;
     --placeholder-color: #6b7280 !important;
     color: #1a1a1a !important;
+  }
+}
+
+ion-button {
+  --border-radius: 25px;
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: 0.5px;
+  
+  &.gradient-button, &.login-button {
+    --background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-secondary) 100%);
+    --color: white;
+    color: white !important;
+    box-shadow: 0 4px 12px rgba(255, 0, 110, 0.3);
+    
+    ion-icon {
+      color: white !important;
+    }
+    
+    span {
+      color: white !important;
+    }
+  }
+  
+  &.register-link {
+    color: var(--ion-color-primary) !important;
+    font-weight: 700;
+    
+    ion-icon {
+      color: var(--ion-color-primary) !important;
+    }
+  }
+  
+  &.guest-button {
+    --border-color: var(--ion-color-primary);
+    --color: var(--ion-color-primary);
+    color: var(--ion-color-primary) !important;
+    margin-top: 1rem;
+    
+    ion-icon {
+      color: var(--ion-color-primary) !important;
+    }
   }
 }

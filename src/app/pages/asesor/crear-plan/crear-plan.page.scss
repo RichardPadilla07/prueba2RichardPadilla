@@ -1,3 +1,17 @@
+ion-content {
+  --background: white;
+  --color: #1a1a1a;
+}
+
+ion-header {
+  ion-toolbar {
+    ion-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+  }
+}
+
 .loading-container {
   display: flex;
   justify-content: center;

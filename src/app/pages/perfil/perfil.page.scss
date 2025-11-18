@@ -1,3 +1,17 @@
+ion-content {
+  --background: white;
+  --color: #1a1a1a;
+}
+
+ion-header {
+  ion-toolbar {
+    ion-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+  }
+}
+
 .loading-container {
   display: flex;
   justify-content: center;
@@ -23,24 +37,95 @@
   background: white;
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  position: relative;
 
-  .avatar-icon {
-    font-size: 120px;
-    color: var(--ion-color-primary);
+  .avatar-wrapper {
+    position: relative;
+    display: inline-block;
     margin-bottom: 1rem;
-    animation: float 3s ease-in-out infinite;
+    
+    .avatar-circle {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-secondary) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(255, 0, 110, 0.4);
+      position: relative;
+      z-index: 2;
+      animation: float 3s ease-in-out infinite;
+      
+      ion-icon {
+        font-size: 60px;
+        color: white;
+      }
+    }
+    
+    .avatar-ring {
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      right: -8px;
+      bottom: -8px;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-secondary) 100%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      padding: 3px;
+      opacity: 0.3;
+      z-index: 1;
+    }
   }
 
-  h2 {
-    font-size: 1.8rem;
-    margin: 0.5rem 0;
-    color: #1a1a1a;
-    font-weight: 700;
+  .profile-name {
+    font-size: 2rem;
+    margin: 1rem 0 0.5rem;
+    background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 800;
   }
 
-  ion-chip {
+  .role-chip {
     margin-top: 0.5rem;
-    font-weight: 600;
+    font-weight: 700;
+    padding: 8px 16px;
+    box-shadow: 0 4px 12px rgba(255, 0, 110, 0.3);
+    
+    &[color="success"] {
+      --background: var(--ion-color-success);
+      background: var(--ion-color-success);
+      color: white;
+    }
+    
+    &[color="primary"] {
+      --background: var(--ion-color-primary);
+      background: var(--ion-color-primary);
+      color: white;
+    }
+    
+    ion-icon {
+      color: white !important;
+    }
+    
+    ion-label {
+      color: white !important;
+      font-weight: 700;
+    }
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
   }
 }
 
@@ -56,6 +141,22 @@ ion-item {
   
   ion-label, ion-input {
     color: #1a1a1a !important;
+  }
+}
+
+ion-card {
+  background: white;
+  color: #1a1a1a;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  
+  ion-card-title {
+    color: #1a1a1a;
+    font-weight: 700;
+  }
+  
+  ion-card-content {
+    background: white;
+    color: #1a1a1a;
   }
 }
 

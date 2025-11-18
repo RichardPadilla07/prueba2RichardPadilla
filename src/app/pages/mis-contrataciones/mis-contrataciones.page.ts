@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonButton, IonSpinner, IonChip, IonLabel, IonRefresher, IonRefresherContent, IonIcon, IonBadge, AlertController, LoadingController, ToastController } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { chatbubbleOutline, timeOutline, checkmarkCircleOutline, closeCircleOutline, trashOutline, banOutline } from 'ionicons/icons';
+import { chatbubbleOutline, timeOutline, checkmarkCircleOutline, closeCircleOutline, trashOutline, banOutline, receiptOutline } from 'ionicons/icons';
 import { ContratacionesService } from '../../services/contrataciones.service';
 import { AuthService } from '../../services/auth.service';
 import { Contratacion } from '../../models/database.types';
@@ -30,7 +30,7 @@ export class MisContratacionesPage implements OnInit, OnDestroy {
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController
   ) {
-    addIcons({ chatbubbleOutline, timeOutline, checkmarkCircleOutline, closeCircleOutline, trashOutline, banOutline });
+    addIcons({ chatbubbleOutline, timeOutline, checkmarkCircleOutline, closeCircleOutline, trashOutline, banOutline, receiptOutline });
   }
 
   ngOnInit() {

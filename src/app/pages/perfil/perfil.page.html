@@ -11,9 +11,15 @@
 
   <div *ngIf="!loading && perfil" class="perfil-container">
     <div class="avatar-section">
-      <ion-icon name="person-circle-outline" class="avatar-icon"></ion-icon>
-      <h2>{{ perfil.nombre }}</h2>
-      <ion-chip [color]="getRolColor(perfil.rol)">
+      <div class="avatar-wrapper">
+        <div class="avatar-circle">
+          <ion-icon name="person-outline"></ion-icon>
+        </div>
+        <div class="avatar-ring"></div>
+      </div>
+      <h2 class="profile-name">{{ perfil.nombre }}</h2>
+      <ion-chip [color]="getRolColor(perfil.rol)" class="role-chip">
+        <ion-icon [name]="getRolIcon(perfil.rol)"></ion-icon>
         <ion-label>{{ getRolLabel(perfil.rol) }}</ion-label>
       </ion-chip>
     </div>

@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { Router } from '@angular/router';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonButton, IonItem, IonLabel, IonInput, IonIcon, IonChip, IonSpinner, LoadingController, ToastController, AlertController } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { personCircleOutline, mailOutline, callOutline, logOutOutline, saveOutline } from 'ionicons/icons';
+import { personCircleOutline, mailOutline, callOutline, logOutOutline, saveOutline, personOutline, shieldCheckmarkOutline } from 'ionicons/icons';
 import { AuthService } from '../../services/auth.service';
 import { Perfil } from '../../models/database.types';
 
@@ -29,7 +29,7 @@ export class PerfilPage implements OnInit {
     private toastCtrl: ToastController,
     private alertCtrl: AlertController
   ) {
-    addIcons({ personCircleOutline, mailOutline, callOutline, logOutOutline, saveOutline });
+    addIcons({ personCircleOutline, mailOutline, callOutline, logOutOutline, saveOutline, personOutline, shieldCheckmarkOutline });
     
     this.perfilForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(3)]],
@@ -157,6 +157,17 @@ export class PerfilPage implements OnInit {
         return 'success';
       default:
         return 'medium';
+    }
+  }
+
+  getRolIcon(rol: string): string {
+    switch (rol) {
+      case 'asesor_comercial':
+        return 'shield-checkmark-outline';
+      case 'usuario_registrado':
+        return 'person-outline';
+      default:
+        return 'person-outline';
     }
   }
 }

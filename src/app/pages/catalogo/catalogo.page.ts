@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonButton, IonSpinner, IonRefresher, IonRefresherContent, IonGrid, IonRow, IonCol, IonIcon, IonChip, IonLabel } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { phonePortraitOutline, wifiOutline, callOutline, chatbubbleOutline } from 'ionicons/icons';
+import { phonePortraitOutline, wifiOutline, callOutline, chatbubbleOutline, personOutline, logInOutline, appsOutline } from 'ionicons/icons';
 import { PlanesService } from '../../services/planes.service';
 import { AuthService } from '../../services/auth.service';
 import { PlanMovil } from '../../models/database.types';
@@ -28,7 +28,7 @@ export class CatalogoPage implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router
   ) {
-    addIcons({ phonePortraitOutline, wifiOutline, callOutline, chatbubbleOutline });
+    addIcons({ phonePortraitOutline, wifiOutline, callOutline, chatbubbleOutline, personOutline, logInOutline, appsOutline });
   }
 
   ngOnInit() {

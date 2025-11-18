@@ -1,3 +1,82 @@
+ion-content {
+  --background: white;
+  --color: #1a1a1a;
+}
+
+.ion-padding {
+  background: white;
+}
+
+ion-card {
+  background: white;
+  color: #1a1a1a;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  
+  ion-card-title, ion-card-subtitle {
+    color: #1a1a1a;
+  }
+  
+  ion-card-content {
+    background: white;
+    color: #1a1a1a;
+  }
+}
+
+.page-header {
+  text-align: center;
+  background: white;
+  padding: 2rem 1rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  
+  .logo-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-secondary) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(255, 0, 110, 0.3);
+    animation: float 3s ease-in-out infinite;
+    margin-bottom: 0.5rem;
+    
+    ion-icon {
+      font-size: 40px;
+      color: white;
+    }
+  }
+  
+  .page-title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 0;
+    background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .page-subtitle {
+    color: #4a5568;
+    font-weight: 500;
+    margin: 0;
+    font-size: 0.95rem;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
 .loading-container {
   display: flex;
   justify-content: center;

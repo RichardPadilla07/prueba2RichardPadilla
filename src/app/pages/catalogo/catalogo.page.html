@@ -9,11 +9,26 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
+  <div class="page-header" *ngIf="isAuthenticated">
+    <div class="logo-circle">
+      <ion-icon name="apps-outline"></ion-icon>
+    </div>
+    <h1 class="page-title">Catálogo de Planes</h1>
+    <p class="page-subtitle">Explora nuestros planes disponibles</p>
+  </div>
+
   <div class="banner ion-padding" *ngIf="!isAuthenticated">
-    <ion-chip color="warning">
-      <ion-label>Inicia sesión para contratar planes</ion-label>
-    </ion-chip>
-    <ion-button size="small" (click)="goToLogin()">Iniciar Sesión</ion-button>
+    <div class="guest-header">
+      <div class="logo-circle">
+        <ion-icon name="person-outline"></ion-icon>
+      </div>
+      <h2 class="guest-title">Invitado</h2>
+      <p class="guest-subtitle">Inicia sesión para contratar planes</p>
+    </div>
+    <ion-button expand="block" size="default" (click)="goToLogin()">
+      <ion-icon slot="start" name="log-in-outline"></ion-icon>
+      Iniciar Sesión
+    </ion-button>
   </div>
 
   <div *ngIf="loading" class="loading-container">
