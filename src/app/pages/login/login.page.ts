@@ -1,16 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonInput, IonItem, IonLabel, IonText, IonSpinner, LoadingController, ToastController } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonInput, IonItem, IonLabel, IonText, IonSpinner, IonCard, IonCardContent, IonIcon, LoadingController, ToastController } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { addIcons } from 'ionicons';
+import { phonePortraitOutline, mailOutline, lockClosedOutline, logInOutline, personAddOutline, eyeOutline, alertCircleOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, ReactiveFormsModule, IonButton, IonInput, IonItem, IonLabel, IonText, IonSpinner]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, ReactiveFormsModule, IonButton, IonInput, IonItem, IonLabel, IonText, IonSpinner, IonCard, IonCardContent, IonIcon]
 })
 export class LoginPage implements OnInit {
   loginForm: FormGroup;
@@ -23,6 +25,7 @@ export class LoginPage implements OnInit {
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController
   ) {
+    addIcons({ phonePortraitOutline, mailOutline, lockClosedOutline, logInOutline, personAddOutline, eyeOutline, alertCircleOutline });
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]

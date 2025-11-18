@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './mis-contrataciones.page.html',
   styleUrls: ['./mis-contrataciones.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonButton, IonSpinner, IonChip, IonLabel, IonRefresher, IonRefresherContent, IonIcon, RouterLink]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonButton, IonSpinner, IonChip, IonLabel, IonRefresher, IonRefresherContent, IonIcon, IonBadge, RouterLink]
 })
 export class MisContratacionesPage implements OnInit, OnDestroy {
   contrataciones: Contratacion[] = [];

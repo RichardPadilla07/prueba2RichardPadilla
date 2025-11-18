@@ -1,15 +1,18 @@
 .chat-title {
   font-size: 1rem;
   font-weight: bold;
+  color: white;
 }
 
 .chat-subtitle {
   font-size: 0.8rem;
-  opacity: 0.8;
+  opacity: 0.9;
+  color: white;
 }
 
 .chat-content {
-  --background: #f5f5f5;
+  --background: white;
+  --color: #1a1a1a;
 }
 
 .loading-container {
@@ -17,6 +20,17 @@
   justify-content: center;
   align-items: center;
   height: 100%;
+  
+  ion-spinner {
+    width: 50px;
+    height: 50px;
+  }
+  
+  p {
+    color: #1a1a1a;
+    font-weight: 600;
+    margin-top: 1rem;
+  }
 }
 
 .messages-container {
@@ -24,11 +38,18 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+  min-height: 100%;
 }
 
 .contrato-info {
   text-align: center;
   margin-bottom: 1rem;
+  
+  ion-chip {
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
 }
 
 .message-item {
@@ -61,18 +82,21 @@
 
     .message-bubble {
       background: white;
-      color: var(--ion-color-dark);
+      color: #1a1a1a;
       border-radius: 18px 18px 18px 4px;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+      border: 1px solid rgba(0, 0, 0, 0.08);
     }
 
     .message-header {
       .sender-name {
         color: var(--ion-color-primary);
+        font-weight: 700;
       }
 
       .message-time {
-        color: var(--ion-color-medium);
+        color: #4a5568;
+        font-weight: 500;
       }
     }
   }
@@ -106,6 +130,7 @@
   line-height: 1.4;
   white-space: pre-wrap;
   color: inherit;
+  font-weight: 500;
 }
 
 .my-message .message-text {
@@ -113,7 +138,7 @@
 }
 
 .other-message .message-text {
-  color: #000000 !important;
+  color: #1a1a1a !important;
 }
 
 .empty-chat {
@@ -123,15 +148,24 @@
   justify-content: center;
   height: 50vh;
   text-align: center;
-  color: var(--ion-color-medium);
+  color: #1a1a1a;
 
   ion-icon {
     font-size: 80px;
+    color: var(--ion-color-primary);
     margin-bottom: 1rem;
+    animation: float 3s ease-in-out infinite;
   }
 
   p {
     padding: 0 2rem;
+    color: #4a5568;
+    font-weight: 500;
+  }
+  
+  h3 {
+    color: #1a1a1a;
+    font-weight: 700;
   }
 }
 
